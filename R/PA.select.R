@@ -37,7 +37,7 @@ setMethod('PA.select', "Algorithm.SDM", function(obj, Env, PA = NULL, verbose = 
   data.PA = data.frame(matrix(nrow = 0, ncol = 2))
   names(data.PA) = c('X','Y')
   if(PA$nb < 100) {nb = PA$nb*PA$nb} else {nb = 1000}
-  while (length(data.PA[,1]) < PA$nb) {
+  while (sum(data.PA[,1]) < PA$nb) {
     X = runif(nb, min = bbox(Mask)[1,1], max = bbox(Mask)[1,2])
     Y = runif(nb, min = bbox(Mask)[2,1],max = bbox(Mask)[2,2])
     points = data.frame(X = X, Y = Y)
