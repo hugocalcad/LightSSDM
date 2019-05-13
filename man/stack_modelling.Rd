@@ -9,10 +9,10 @@ stack_modelling(algorithms, Occurrences, Env, Xcol = "Longitude",
   name = NULL, save = FALSE, path = getwd(), PA = NULL,
   cv = "holdout", cv.param = c(0.7, 1), thresh = 1001,
   axes.metric = "Pearson", uncertainty = TRUE, tmp = FALSE,
-  ensemble.metric = c("AUC"), ensemble.thresh = c(0.75), weight = TRUE,
-  method = "pSSDM", metric = "SES", rep.B = 1000, range = NULL,
-  endemism = c("WEI", "Binary"), verbose = TRUE, GUI = FALSE, cores = 1,
-  ...)
+  ensemble.metric = c("AUC"), ensemble.thresh = c(0.75),
+  weight = TRUE, method = "pSSDM", metric = "SES", rep.B = 1000,
+  range = NULL, endemism = c("WEI", "Binary"), verbose = TRUE,
+  GUI = FALSE, cores = 1, folder_tmp = NULL, ...)
 }
 \arguments{
 \item{algorithms}{character. Choice of the algorithm(s) to be run (see details
@@ -109,6 +109,8 @@ user interface).}
 \item{cores}{integer. Specify the number of CPU cores used to do the
 computing. You can use \code{\link[parallel]{detectCores}}) to automatically
 used all the available CPU cores.}
+
+\item{folder_tmp}{character. carpete temporal para el ENV.}
 
 \item{...}{additional parameters for the algorithm modelling function (see
 details below).}

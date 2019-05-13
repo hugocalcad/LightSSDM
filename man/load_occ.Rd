@@ -46,7 +46,7 @@ Load occurrence data from CSV file to perform \code{\link{modelling}},
 \code{\link{ensemble_modelling}} or \code{\link{stack_modelling}}.
 }
 \examples{
-load_occ(path = system.file('extdata',  package = 'SSDM'), Env,
+load_occ(path = system.file('extdata',  package = 'OSSDM'), Env,
          Xcol = 'LONGITUDE', Ycol = 'LATITUDE',
          file = 'Occurrences.csv', sep = ',')
 

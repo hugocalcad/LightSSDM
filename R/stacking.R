@@ -36,6 +36,7 @@ NULL
 #'  the console.
 #'@param GUI logical. Don't take that argument into account (parameter for the
 #'  user interface).
+#'@param folder_tmp character. Carpeta temporal para el ENV.
 #'
 #'@return an S4 \linkS4class{Stacked.SDM} class object viewable with the
 #'  \code{\link{plot.model}} function.
@@ -110,16 +111,16 @@ NULL
 #'
 #'@rdname stacking
 #'@export
-setGeneric('stacking', function(enm, ..., name = NULL, method = 'pSSDM', rep.B = 1000, Env = NULL, range = NULL, endemism = c('WEI','Binary'), verbose = TRUE, GUI = FALSE) {return(standardGeneric('stacking'))})
+setGeneric('stacking', function(enm, ..., name = NULL, method = 'pSSDM', rep.B = 1000, Env = NULL, range = NULL, endemism = c('WEI','Binary'), verbose = TRUE, GUI = FALSE, folder_tmp = NULL) {return(standardGeneric('stacking'))})
 
 #' @rdname stacking
 #' @export
 setMethod('stacking', 'Ensemble.SDM', function(enm, ..., name = NULL, method = 'pSSDM', rep.B = 1000,
                                                Env = NULL, range = NULL, endemism = c('WEI','Binary'),
-                                               verbose = TRUE, GUI = FALSE) {
+                                               verbose = TRUE, GUI = FALSE, folder_tmp = NULL) {
   # Check arguments
   .checkargs(enm = enm, name = name, method = method, rep.B = rep.B, range = range,
-             endemism = endemism, verbose = verbose, GUI = GUI)
+             endemism = endemism, verbose = verbose, GUI = GUI, folder_tmp = folder_tmp)
 
   enms <- list(enm, ...)
   if (length(enms) < 2) {
@@ -195,7 +196,7 @@ setMethod('stacking', 'Ensemble.SDM', function(enm, ..., name = NULL, method = '
   # Diversity map
   if (verbose)
     cat("   diversity mapping...")
-  diversity <- mapDiversity(stack, method, rep.B, verbose, Env)
+  diversity <- mapDiversity(stack, method, rep.B, verbose, Env, folder_tmp = folder_tmp)
   stack@diversity.map <- diversity$diversity.map
   if(!is.null(diversity$enms))
     stack@enms <- diversity$enms

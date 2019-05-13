@@ -64,6 +64,7 @@ NULL
 #'  the console.
 #'@param GUI logical. Do not take this argument into account (parameter for the
 #'  user interface).
+#'@param folder_tmp carpeta donde se almacena si es temporal.
 #'@param ... additional parameters for the algorithm modelling function (see
 #'  details below).
 #'
@@ -298,6 +299,7 @@ ensemble_modelling <- function(algorithms,
                               ensemble.metric = c('AUC'), ensemble.thresh = c(0.75), weight = TRUE,
                               # Informations parameters
                               verbose = TRUE, GUI = FALSE,
+                              folder_tmp = NULL,
                               # Modelling parameters
                               ...) {
   # Check arguments
@@ -305,7 +307,7 @@ ensemble_modelling <- function(algorithms,
              path = path, PA = PA, cv = cv, cv.param = cv.param, thresh = thresh,
              metric = metric, axes.metric = axes.metric, uncertainty = uncertainty, tmp = tmp,
              ensemble.metric = ensemble.metric, ensemble.thresh = ensemble.thresh,
-             weight = weight, verbose = verbose, GUI = GUI)
+             weight = weight, verbose = verbose, GUI = GUI, folder_tmp = folder_tmp)
 
   # Test if algorithm is available
   available.algo <- c("GLM", "GAM", "MARS", "GBM", "CTA", "RF", "MAXENT",
@@ -345,7 +347,7 @@ ensemble_modelling <- function(algorithms,
                              Ycol = Ycol, Pcol = Pcol, name = NULL, PA = PA, cv = cv, cv.param = cv.param,
                              thresh = thresh, metric = metric, axes.metric = axes.metric,
                              select = FALSE, select.metric = ensemble.metric, select.thresh = ensemble.thresh,
-                             verbose = verbose, GUI = GUI, ...))
+                             verbose = verbose, GUI = GUI, folder_tmp = folder_tmp, ...))
       if (GUI) {
         incProgress(1/(length(algorithms) + 1), detail = paste(algorithms[i],
                                                                "SDM built"))

@@ -31,7 +31,7 @@ NULL
 #'  not).
 #'
 #' @examples
-#' load_occ(path = system.file('extdata',  package = 'SSDM'), Env,
+#' load_occ(path = system.file('extdata',  package = 'OSSDM'), Env,
 #'          Xcol = 'LONGITUDE', Ycol = 'LATITUDE',
 #'          file = 'Occurrences.csv', sep = ',')
 #'
@@ -114,9 +114,9 @@ load_occ <- function(path = getwd(), Env, file = NULL, ..., Xcol = "Longitude",
       }
       occ.indices <- c(seq_len(length(row.names(SpOccurrences))))
       res.indices <- as.numeric(row.names(thin.result[[1]]))
-      mi_funcion_2 <- function(i){
-        if (!(occ.indices[i] %in% res.indices)) {
-          deleted <- c(deleted, occ.indices[i])
+      mi_funcion_2 <- function(j){
+        if (!(occ.indices[j] %in% res.indices)) {
+          deleted <- c(deleted, occ.indices[j])
         }
       }
       lapply(seq_len(length(occ.indices)), mi_funcion_2)
@@ -127,8 +127,8 @@ load_occ <- function(path = getwd(), Env, file = NULL, ..., Xcol = "Longitude",
       }
     }
   }
-  lapply(seq_len(length(levels(Occurrences[, which(names(Occurrences) == Spcol)]))),mi_funcion)
-  
+  lapply(seq_len(length(levels(Occurrences[, which(names(Occurrences) == Spcol)]))), mi_funcion)
+
   Occurrences <- droplevels(Occurrences)
 
   # Test species occurrences > 3
@@ -144,7 +144,7 @@ load_occ <- function(path = getwd(), Env, file = NULL, ..., Xcol = "Longitude",
                                                               Spcol)] == sp), ]
     }
   }
-  lapply(seq_len(length(levels(Occurrences[, which(names(Occurrences) ==Spcol)]))))
+  lapply(seq_len(length(levels(Occurrences[, which(names(Occurrences) ==Spcol)]))), mi_funcion)
   if (Spcol == "SpNULL") {
     Occurrences <- Occurrences[-which(names(Occurrences) == "SpNULL")]
   }

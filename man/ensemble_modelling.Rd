@@ -5,12 +5,12 @@
 \title{Build an ensemble SDM that assembles multiple algorithms}
 \usage{
 ensemble_modelling(algorithms, Occurrences, Env, Xcol = "Longitude",
-  Ycol = "Latitude", Pcol = NULL, rep = 10, name = NULL, save = FALSE,
-  path = getwd(), PA = NULL, cv = "holdout", cv.param = c(0.7, 1),
-  thresh = 1001, metric = "SES", axes.metric = "Pearson",
-  uncertainty = TRUE, tmp = FALSE, ensemble.metric = c("AUC"),
-  ensemble.thresh = c(0.75), weight = TRUE, verbose = TRUE, GUI = FALSE,
-  ...)
+  Ycol = "Latitude", Pcol = NULL, rep = 10, name = NULL,
+  save = FALSE, path = getwd(), PA = NULL, cv = "holdout",
+  cv.param = c(0.7, 1), thresh = 1001, metric = "SES",
+  axes.metric = "Pearson", uncertainty = TRUE, tmp = FALSE,
+  ensemble.metric = c("AUC"), ensemble.thresh = c(0.75),
+  weight = TRUE, verbose = TRUE, GUI = FALSE, folder_tmp = NULL, ...)
 }
 \arguments{
 \item{algorithms}{character. A character vector specifying the algorithm
@@ -86,6 +86,8 @@ the console.}
 
 \item{GUI}{logical. Do not take this argument into account (parameter for the
 user interface).}
+
+\item{folder_tmp}{character. Carpeta temporal para el env.}
 
 \item{...}{additional parameters for the algorithm modelling function (see
 details below).}

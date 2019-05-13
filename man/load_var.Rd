@@ -4,9 +4,10 @@
 \alias{load_var}
 \title{Load environmental variables}
 \usage{
-load_var(path = getwd(), files = NULL, format = c(".grd", ".tif", ".asc",
-  ".sdat", ".rst", ".nc", ".envi", ".bil", ".img"), categorical = NULL,
-  Norm = TRUE, tmp = TRUE, verbose = TRUE, GUI = FALSE)
+load_var(path = getwd(), files = NULL, format = c(".grd", ".tif",
+  ".asc", ".sdat", ".rst", ".nc", ".envi", ".bil", ".img"),
+  categorical = NULL, Norm = TRUE, tmp = TRUE, verbose = TRUE,
+  GUI = FALSE, nraster = 1, folder_tmp = NULL)
 }
 \arguments{
 \item{path}{character. Path to the directory that contains the environmental variables
@@ -30,6 +31,10 @@ beware: if you close R, temporary files will be deleted.}
 \item{verbose}{logical. If set to true, allows the function to print text in the
 console.}
 
+\item{nraster}{integer. dividir raster nraster*nraster.}
+
+\item{folder_tmp}{character. folder temporal.}
+
 \item{GUI}{logical. Do not take that argument into account (parameter for the
 user interface).}
 }
@@ -44,7 +49,7 @@ Function to load environmental variables in the form of rasters to perform
 }
 \examples{
 \dontrun{
-load_var(system.file('extdata',  package = 'SSDM'))
+load_var(system.file('extdata',  package = 'OSSDM'))
 }
 
 }

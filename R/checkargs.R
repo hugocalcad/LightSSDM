@@ -38,7 +38,9 @@
                       range = NULL,
                       endemism = 'WEI',
                       cores = 1,
-                      MEM = FALSE){
+                      MEM = FALSE,
+                      nraster = 1,
+                      folder_tmp = NULL){
   ## Argument checking function
   ## Occurrences, Environment, and part of
   ## X, Y, Pcol are directly defined in functions
@@ -273,5 +275,16 @@
   if (!inherits(cores, "numeric") || abs(cores - round(cores)) != 0 || cores <
       0) {
     stop("cores parameter should be an integer > 0 (see help).")
+  }
+
+  # nraster
+  if (!inherits(nraster, "numeric") || nraster > 10  || nraster <
+      1) {
+    stop("nraster parameter should be an integer between 1 and 10 (see help).")
+  }
+
+  #nfolder
+  if (!inherits(folder_tmp, "character") && !is.null(folder_tmp)) {
+    stop("folder_tmp parameter should be characters or NULL")
   }
 }

@@ -52,6 +52,8 @@ NULL
 #'  the console.
 #'@param GUI logical. Don't take that argument into account (parameter for the
 #'  user interface).
+#'@param folder_tmp character. nombre que se uso para guardar los temporales  del ENV
+#'  y tmb donde se guardan los splits.
 #'@param ... additional parameters for the algorithm modelling function (see
 #'  details below).
 #'
@@ -221,12 +223,12 @@ modelling <- function(algorithm, Occurrences, Env, Xcol = "Longitude",
                       Ycol = "Latitude", Pcol = NULL, name = NULL, PA = NULL, cv = "holdout",
                       cv.param = c(0.7, 2), thresh = 1001, metric = "SES", axes.metric = "Pearson",
                       select = FALSE, select.metric = c("AUC"), select.thresh = c(0.75),
-                      verbose = TRUE, GUI = FALSE, ...) {
+                      verbose = TRUE, GUI = FALSE, folder_tmp = NULL, ...) {
   # Check arguments
   .checkargs(Xcol = Xcol, Ycol = Ycol, Pcol = Pcol, name = name, PA = PA,
              cv = cv, cv.param = cv.param, thresh = thresh, metric = metric,
              axes.metric = axes.metric, select = select, select.metric = select.metric,
-             select.thresh = select.thresh, verbose = verbose, GUI = GUI)
+             select.thresh = select.thresh, verbose = verbose, GUI = GUI, folder_tmp = folder_tmp)
 
   # Test if algorithm is available
   available.algo <- c("GLM", "GAM", "MARS", "GBM", "CTA", "RF", "MAXENT",
@@ -349,7 +351,7 @@ modelling <- function(algorithm, Occurrences, Env, Xcol = "Longitude",
     if (verbose) {
       cat("Model projection...\n")
     }
-    model <- project(model, Env, ...)
+    model <- project(model, Env, folder_tmp,...)
     if (verbose) {
       cat("   done. \n\n")
     }

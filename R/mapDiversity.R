@@ -19,6 +19,7 @@ NULL
 #'  method using probability ranking from richness (\strong{PRR}).
 #'@param verbose logical. If set to true, allows the function to print text in
 #'  the console.
+#'@param folder_tmp character. carpeta temporal para el ENV.
 #'@param ... other arguments pass to the method.
 #'
 #'@return a list with a diversity map and eventually ESDMs for stacking method
@@ -76,10 +77,10 @@ setGeneric('mapDiversity', function(obj, ...) {return(standardGeneric('mapDivers
 #' @rdname mapDiversity
 #' @export
 setMethod("mapDiversity", "Stacked.SDM", function(obj, method, rep.B = 1000,
-                                                  verbose = TRUE, Env = NULL,
+                                                  verbose = TRUE, Env = NULL, folder_tmp = NULL,
                                                   ...){
   # Check arguments
-  .checkargs(stack = obj, method = method, rep.B = rep.B, verbose = verbose)
+  .checkargs(stack = obj, method = method, rep.B = rep.B, verbose = verbose, folder_tmp = folder_tmp)
 
   enms <- NULL # Preparing enms slot for PPR methods
   diversity.map <- reclassify(obj@enms[[1]]@projection[[1]], c(-Inf,Inf, 0))
@@ -131,7 +132,7 @@ setMethod("mapDiversity", "Stacked.SDM", function(obj, method, rep.B = 1000,
     if (verbose)
       cat("\n Local species richness computed by maximum likelihood adjustment. \n")
     diversity.map <- mapDiversity(obj, method = 'bSSDM',
-                                  verbose = FALSE)$diversity.map
+                                  verbose = FALSE, folder_tmp = folder_tmp)$diversity.map
     Richness <- .richness(obj)
     SSDM_Richness <- values(mask(diversity.map, Richness))
     SSDM_Richness <- SSDM_Richness[-which(is.na(SSDM_Richness))]
@@ -156,7 +157,7 @@ setMethod("mapDiversity", "Stacked.SDM", function(obj, method, rep.B = 1000,
     if (verbose)
       cat("\n Local species richness computed by probability ranking from pSSDM. \n")
     diversity.map <- mapDiversity(obj, method = 'pSSDM',
-                                  verbose = FALSE)$diversity.map
+                                  verbose = FALSE, folder_tmp = folder_tmp)$diversity.map
     enms <- .PRR(obj, diversity.map)
   }
 
@@ -206,7 +207,7 @@ setMethod("mapDiversity", "Stacked.SDM", function(obj, method, rep.B = 1000,
                "|", fixed = TRUE))[-1]),
     uncertainty = FALSE,
     weight = as.logical(obj@enms[[1]]@parameters$weight),
-    verbose = FALSE)
+    verbose = FALSE, folder_tmp = folder_tmp)
   MEM@projection <- MEM@projection*maxOcc
   return(MEM)
 }

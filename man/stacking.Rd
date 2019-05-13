@@ -8,11 +8,11 @@
 \usage{
 stacking(enm, ..., name = NULL, method = "pSSDM", rep.B = 1000,
   Env = NULL, range = NULL, endemism = c("WEI", "Binary"),
-  verbose = TRUE, GUI = FALSE)
+  verbose = TRUE, GUI = FALSE, folder_tmp = NULL)
 
-\S4method{stacking}{Ensemble.SDM}(enm, ..., name = NULL, method = "pSSDM",
-  rep.B = 1000, Env = NULL, range = NULL, endemism = c("WEI", "Binary"),
-  verbose = TRUE, GUI = FALSE)
+\S4method{stacking}{Ensemble.SDM}(enm, ..., name = NULL,
+  method = "pSSDM", rep.B = 1000, Env = NULL, range = NULL,
+  endemism = c("WEI", "Binary"), verbose = TRUE, GUI = FALSE, folder_tmp = NULL)
 }
 \arguments{
 \item{enm, ...}{character. Ensemble SDMs to be stacked.}
@@ -44,6 +44,8 @@ the console.}
 
 \item{GUI}{logical. Don't take that argument into account (parameter for the
 user interface).}
+
+\item{folder_tmp}{character. carpeta temporal para el ENV.}
 }
 \value{
 an S4 \linkS4class{Stacked.SDM} class object viewable with the

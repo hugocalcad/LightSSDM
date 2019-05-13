@@ -8,15 +8,16 @@ test_that("modelling works", {
   data$Presence <- 1
   model@data <- data
   data(Env)
-  model = PA.select(model, Env, NULL, verbose = FALSE)
+  model = PA.select(model, Env, NULL, verbose = TRUE)
   model@parameters["PA"] = TRUE
   expect_equal(length(which(model@data$Presence == 0)), 1000)
   model = data.values(model, Env)
+  cat(dim(model@data))
   expect_equal(dim(model@data), c(1057, 6))
   model = evaluate(model, cv = "holdout", cv.param = c(0.7, 2), thresh = 1001,
                    metric = "SES", Env)
   expect_equal(dim(model@evaluation), c(1, 7))
-  model = project(model, Env)
+  model = project(model, Env, NULL)
   expect_equal(all(is.na(values(model@projection))), FALSE)
   model = evaluate.axes(model, cv.param = c(0.7, 2), thresh = 1001, metric = "SES",
                         axes.metric = "Pearson", Env)

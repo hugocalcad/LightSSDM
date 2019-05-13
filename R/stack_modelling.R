@@ -82,6 +82,7 @@ NULL
 #'@param cores integer. Specify the number of CPU cores used to do the
 #'  computing. You can use \code{\link[parallel]{detectCores}}) to automatically
 #'  used all the available CPU cores.
+#'@param folder_tmp character. Carpeta temporal para el ENV.
 #'@param ... additional parameters for the algorithm modelling function (see
 #'  details below).
 #'
@@ -298,7 +299,7 @@ stack_modelling <- function(algorithms,
                            # Range restriction and endemism
                            range = NULL, endemism = c('WEI','Binary'),
                            # Informations parameters
-                           verbose = TRUE, GUI = FALSE, cores = 1,
+                           verbose = TRUE, GUI = FALSE, cores = 1, folder_tmp = NULL,
                            # Modelling parameters
                            ...) {
   # Check arguments
@@ -307,7 +308,7 @@ stack_modelling <- function(algorithms,
              thresh = thresh, axes.metric = axes.metric, uncertainty = uncertainty,
              tmp = tmp, ensemble.metric = ensemble.metric, ensemble.thresh = ensemble.thresh,
              weight = weight, method = method, metric = metric, rep.B = rep.B, range = range,
-             endemism = endemism, verbose = verbose, GUI = GUI, cores = cores)
+             endemism = endemism, verbose = verbose, GUI = GUI, cores = cores, folder_tmp = folder_tmp)
 
   # Test if algorithm is available
   available.algo <- c("GLM", "GAM", "MARS", "GBM", "CTA", "RF", "MAXENT",
@@ -357,7 +358,7 @@ stack_modelling <- function(algorithms,
                                     PA = PA, cv = cv, cv.param = cv.param, thresh = thresh, metric = metric,
                                     axes.metric = axes.metric, uncertainty = uncertainty, tmp = tmp,
                                     ensemble.metric = ensemble.metric, ensemble.thresh = ensemble.thresh,
-                                    weight = weight, verbose = verbose, GUI = FALSE, n.cores = 1,
+                                    weight = weight, verbose = verbose, GUI = FALSE, n.cores = 1, folder_tmp = folder_tmp,
                                     ...))
       if (GUI) {
         incProgress(1/(length(levels(as.factor(Occurrences[, which(names(Occurrences) ==
@@ -401,7 +402,7 @@ stack_modelling <- function(algorithms,
                                     PA = PA, cv = cv, cv.param = cv.param, thresh = thresh, metric = metric,
                                     axes.metric = axes.metric, uncertainty = uncertainty, tmp = tmp,
                                     ensemble.metric = ensemble.metric, ensemble.thresh = ensemble.thresh,
-                                    weight = weight, verbose = verbose, GUI = FALSE, ...))
+                                    weight = weight, verbose = verbose, GUI = FALSE, folder_tmp = folder_tmp, ...))
       if (GUI) {
         incProgress(1/(length(levels(as.factor(Occurrences[, which(names(Occurrences) ==
                                                                      Spcol)]))) + 1), detail = paste(species, " ensemble SDM built"))

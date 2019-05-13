@@ -1,6 +1,7 @@
 #' @include checkargs.R
 #' @importFrom shiny incProgress
 #' @importFrom raster raster stack res extent crop reclassify as.factor resample readAll
+#' @import SpaDES.tools
 NULL
 
 #'Load environmental variables
@@ -25,6 +26,9 @@ NULL
 #'  console.
 #'@param GUI logical. Do not take that argument into account (parameter for the
 #'  user interface).
+#'@param nraster integer. Numbre of raster to be splitted nraster*nraster
+#'  user interface).
+#'@param folder_tmp character. define the nome folder to save in the temporal.
 #'
 #'@return A stack containing the environmental rasters (normalized or
 #'  not).
@@ -39,10 +43,10 @@ NULL
 #'@export
 load_var <- function(path = getwd(), files = NULL, format = c(".grd", ".tif",
                                                               ".asc", ".sdat", ".rst", ".nc", ".envi", ".bil", ".img"), categorical = NULL,
-                     Norm = TRUE, tmp = TRUE, verbose = TRUE, GUI = FALSE) {
+                     Norm = TRUE, tmp = TRUE, verbose = TRUE, GUI = FALSE, nraster = 1, folder_tmp = NULL) {
   # Check arguments
   .checkargs(path = path, files = files, format = format, categorical = categorical,
-             Norm = Norm, tmp = tmp, verbose = verbose, GUI = GUI)
+             Norm = Norm, tmp = tmp, verbose = verbose, GUI = GUI, nraster = nraster, folder_tmp = folder_tmp)
 
   # pdir = getwd()
   if (verbose) {
@@ -161,8 +165,7 @@ load_var <- function(path = getwd(), files = NULL, format = c(".grd", ".tif",
         Env[[i]] <- Env[[i]]/Env[[i]]@data@max
       }
       if (GUI) {
-        incProgress((1/length(Env@layers)/3), detail = paste(i,
-                                                             "normalized"))
+        incProgress((1/length(Env@layers)/3), detail = paste(i, "normalized"))
       }
     }
   }
@@ -172,11 +175,46 @@ load_var <- function(path = getwd(), files = NULL, format = c(".grd", ".tif",
   # Temporary files
   if (tmp) {
     path <- get("tmpdir", envir = .PkgEnv)
+
     if (!(file.path(path, ".rasters") %in% list.dirs(path)))
       (dir.create(paste0(path, "/.rasters")))
-    for (i in seq_len(length(Env@layers))) {
-      Env[[i]] <- writeRaster(Env[[i]], paste0(path, "/.rasters/",
-                                               names(Env[[i]])), overwrite = TRUE)
+
+    if(!is.null(folder_tmp)){
+      if (!(file.path(path, ".rasters", folder_tmp ) %in% list.dirs(paste0(path, "/.rasters"))))
+        (dir.create(paste0(path, "/.rasters/",folder_tmp)))
+      for (i in seq_len(length(Env@layers))) {
+        Env[[i]] <- writeRaster(Env[[i]], paste0(path, "/.rasters/", folder_tmp, "/",
+                                                 names(Env[[i]])), overwrite = TRUE)
+      }
+    }
+    else{
+      for (i in seq_len(length(Env@layers))) {
+        Env[[i]] <- writeRaster(Env[[i]], paste0(path, "/.rasters/",
+                                                 names(Env[[i]])), overwrite = TRUE)
+      }
+    }
+  }
+
+  if(nraster > 0){
+    path <- get("tmpdir", envir = .PkgEnv)
+    if(!tmp){
+      if (!(file.path(path, ".rasters") %in% list.dirs(path)))
+        (dir.create(paste0(path, "/.rasters")))
+    }
+    if(!is.null(folder_tmp)){
+      if (!(file.path(path, ".rasters", folder_tmp,".split" ) %in% list.dirs(paste0(path, "/.rasters/", folder_tmp))))
+      (dir.create(paste0(path, "/.rasters/",folder_tmp,".split")))
+
+      for (i in seq_len(length(Env@layers))) {
+        splitRaster(Env[[i]], nraster, nraster, path = paste0(path, "/.rasters/",folder_tmp, "/.split/", names(Env[[i]])))
+      }
+    }
+    else{
+      if (!(file.path(path, ".rasters", ".split" ) %in% list.dirs(paste0(path, "/.rasters"))))
+        (dir.create(paste0(path, "/.rasters/.split")))
+      for (i in seq_len(length(Env@layers))) {
+        splitRaster(Env[[i]], nraster, nraster, path = paste0(path, "/.rasters/.split/", names(Env[[i]])))
+      }
     }
   }
 

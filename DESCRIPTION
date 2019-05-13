@@ -3,13 +3,12 @@ Type: Package
 Title: Stacked Species Distribution Modelling
 Version: 0.1.1.1001
 Author: Sylvain Schmitt, Robin Pouteau, Dimitri Justeau, Florian de Boissieu, Philippe Birnbaum
-Maintainer: Victor Calderon <hugocalcad@gmail.com>
+Maintainer: Sylvain Schmitt <sylvain.schmitt@agroparistech.fr>
 URL: https://github.com/sylvainschmitt/SSDM
 BugReports: https://github.com/sylvainschmitt/SSDM/issues
 Description: Optimizacion de codigo utilizando tecnicas como ser la division de
               raster, utilizando funciones con lapply y otros, el proposito
-              es el mismo del paquete original desarrollado por et. al. Schmitt
-              https://cran.r-project.org/web/packages/SSDM/index.html.
+              es el mismo del paquete original desarrollado por et. al. Schmitt.
 License: GPL (>=3) | file LICENSE
 LazyData: TRUE
 Imports:
@@ -29,7 +28,7 @@ Imports:
     shinydashboard (>= 0.5.1),
     gplots (>= 0.1.0),
     shinyFiles (>= 0.6.0),
-    spThin (>= 0.1.0)
+    spThin (>= 0.1.0),
     SpaDES.tools (>= 0.3.1)
 Depends:
     R (>= 3.2.2)

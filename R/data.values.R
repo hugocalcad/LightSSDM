@@ -29,8 +29,7 @@ setMethod("data.values", "Algorithm.SDM", function(obj, Env, na.rm = TRUE) {
   if (na.rm) {
     for (i in seq_len(length(Env@layers))) {
       if (length(which(is.na(obj@data[i + 3]))) > 0) {
-        obj@data <- obj@data[-c(which(is.na(obj@data[i + 3]))),
-                             ]
+        obj@data <- obj@data[-c(which(is.na(obj@data[i + 3]))),]
       }
     }
   }

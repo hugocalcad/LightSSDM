@@ -3,14 +3,13 @@
 \docType{methods}
 \name{mapDiversity}
 \alias{mapDiversity}
-\alias{mapDiversity}
 \alias{mapDiversity,Stacked.SDM-method}
 \title{Map Diversity}
 \usage{
 mapDiversity(obj, ...)
 
 \S4method{mapDiversity}{Stacked.SDM}(obj, method, rep.B = 1000,
-  verbose = TRUE, Env = NULL, ...)
+  verbose = TRUE, Env = NULL, folder_tmp = NULL, ...)
 }
 \arguments{
 \item{obj}{Stacked.SDM. SSDM to map diversity with.}
@@ -26,6 +25,8 @@ repetitions used to create binary maps for each species.}
 
 \item{verbose}{logical. If set to true, allows the function to print text in
 the console.}
+
+\item{folder_tmp}{characte. carpeta temporal para el ENV.}
 
 \item{Env}{raster object. Stacked raster object of environmental variables
 (can be processed first by \code{\link{load_var}}). Needed only for stacking

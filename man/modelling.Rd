@@ -6,9 +6,10 @@
 \usage{
 modelling(algorithm, Occurrences, Env, Xcol = "Longitude",
   Ycol = "Latitude", Pcol = NULL, name = NULL, PA = NULL,
-  cv = "holdout", cv.param = c(0.7, 2), thresh = 1001, metric = "SES",
-  axes.metric = "Pearson", select = FALSE, select.metric = c("AUC"),
-  select.thresh = c(0.75), verbose = TRUE, GUI = FALSE, ...)
+  cv = "holdout", cv.param = c(0.7, 2), thresh = 1001,
+  metric = "SES", axes.metric = "Pearson", select = FALSE,
+  select.metric = c("AUC"), select.thresh = c(0.75), verbose = TRUE,
+  GUI = FALSE, folder_tmp=NULL, ...)
 }
 \arguments{
 \item{algorithm}{character. Choice of the algorithm to be run (see details
@@ -68,6 +69,8 @@ the console.}
 
 \item{GUI}{logical. Don't take that argument into account (parameter for the
 user interface).}
+
+\item{folder_tmp}{characer. Donde se guarda el temporal.}
 
 \item{...}{additional parameters for the algorithm modelling function (see
 details below).}
