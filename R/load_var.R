@@ -203,7 +203,7 @@ load_var <- function(path = getwd(), files = NULL, format = c(".grd", ".tif",
     }
     if(!is.null(folder_tmp)){
       if (!(file.path(path, ".rasters", folder_tmp,".split" ) %in% list.dirs(paste0(path, "/.rasters/", folder_tmp))))
-      (dir.create(paste0(path, "/.rasters/",folder_tmp,".split")))
+      (dir.create(paste0(path, "/.rasters/",folder_tmp,"/.split")))
 
       for (i in seq_len(length(Env@layers))) {
         splitRaster(Env[[i]], nraster, nraster, path = paste0(path, "/.rasters/",folder_tmp, "/.split/", names(Env[[i]])))

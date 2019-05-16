@@ -12,9 +12,9 @@ setMethod("project", "Algorithm.SDM", function(obj, Env, folder_tmp = NULL, ...)
   model = get_model(obj, ...)
   path <- get("tmpdir", envir = .PkgEnv)
   if(!is.null(folder_tmp))
-    path = paste0(path, "/.raster/", folder_tmp, "/.split")
+    path = paste0(path, "/.rasters/", folder_tmp, "/.split")
   else
-    path = paste0(path,"/.raster/.split")
+    path = paste0(path,"/.rasters/.split")
   if(!(file.path(path, names(Env[[1]])) %in% list.dirs(path))){
     for(i in seq_len(length(Env@layers))){
       splitRaster(Env[[i]],1,1,path = paste0(path,"/", names(Env[[i]])))
@@ -30,11 +30,11 @@ setMethod("project", "Algorithm.SDM", function(obj, Env, folder_tmp = NULL, ...)
     Env_temp <- raster::stack(listado_completo)
     proj_2[[i]] = suppressWarnings(raster::predict(Env_temp, model, fun = function(model, x) {
       x = as.data.frame(x)
-      for (i in seq_len(length(Env_temp@layers))) {
-        if (Env_temp[[i]]@data@isfactor) {
-          x[, i] = as.factor(x[, i])
-          x[, i] = droplevels(x[, i])
-          levels(x[, i]) = Env_temp[[i]]@data@attributes[[1]]$ID
+      for (j in seq_len(length(Env_temp@layers))) {
+        if (Env_temp[[j]]@data@isfactor) {
+          x[, j] = as.factor(x[, j])
+          x[, j] = droplevels(x[, j])
+          levels(x[, j]) = Env_temp[[j]]@data@attributes[[1]]$ID
         }
       }
       return(predict(model, x))
@@ -64,9 +64,9 @@ setMethod("project", "MAXENT.SDM", function(obj, Env, folder_tmp = NULL, ...) {
   model = get_model(obj, Env, ...)
   path <- get("tmpdir", envir = .PkgEnv)
   if(!is.null(folder_tmp))
-    path = paste0(path, "/.raster/", folder_tmp, ".split")
+    path = paste0(path, "/.rasters/", folder_tmp, ".split")
   else
-    path = paste0(path,"/.raster/.split")
+    path = paste0(path,"/.rasters/.split")
   if(!(file.path(path, names(Env[[1]])) %in% list.dirs(path))){
     for(i in seq_len(length(Env@layers))){
       splitRaster(Env[[i]],1,1,path = paste0(path,"/", names(Env[[i]])))
@@ -82,11 +82,11 @@ setMethod("project", "MAXENT.SDM", function(obj, Env, folder_tmp = NULL, ...) {
     Env_temp <- raster::stack(listado_completo)
     proj_2[[i]] = raster::predict(Env_temp, model, fun = function(model, x) {
       x = as.data.frame(x)
-      for (i in seq_len(length(Env_temp@layers))) {
-        if (Env_temp[[i]]@data@isfactor) {
-          x[, i] = as.factor(x[, i])
-          x[, i] = droplevels(x[, i])
-          levels(x[, i]) = Env_temp[[i]]@data@attributes[[1]]$ID
+      for (j in seq_len(length(Env_temp@layers))) {
+        if (Env_temp[[j]]@data@isfactor) {
+          x[, j] = as.factor(x[, j])
+          x[, j] = droplevels(x[, j])
+          levels(x[, j]) = Env_temp[[j]]@data@attributes[[1]]$ID
         }
       }
       return(predict(model, x))
