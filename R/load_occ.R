@@ -31,7 +31,7 @@ NULL
 #'  not).
 #'
 #' @examples
-#' load_occ(path = system.file('extdata',  package = 'OSSDM'), Env,
+#' load_occ(path = system.file('extdata',  package = 'LightSSDM'), Env,
 #'          Xcol = 'LONGITUDE', Ycol = 'LATITUDE',
 #'          file = 'Occurrences.csv', sep = ',')
 #'
@@ -93,7 +93,8 @@ load_occ <- function(path = getwd(), Env, file = NULL, ..., Xcol = "Longitude",
     Spcol <- "SpNULL"
     Occurrences$SpNULL <- as.factor(Occurrences$SpNULL)
   }
-  mi_funcion <- function (i) {
+  for (i in seq_len(length(levels(Occurrences[, which(names(Occurrences) ==
+                                                      Spcol)])))) {
     if (GeoRes) {
       if (verbose) {
         cat(levels(as.factor(Occurrences[, which(names(Occurrences) ==
@@ -114,12 +115,11 @@ load_occ <- function(path = getwd(), Env, file = NULL, ..., Xcol = "Longitude",
       }
       occ.indices <- c(seq_len(length(row.names(SpOccurrences))))
       res.indices <- as.numeric(row.names(thin.result[[1]]))
-      mi_funcion_2 <- function(j){
+      for (j in seq_len(length(occ.indices))) {
         if (!(occ.indices[j] %in% res.indices)) {
           deleted <- c(deleted, occ.indices[j])
         }
       }
-      lapply(seq_len(length(occ.indices)), mi_funcion_2)
       deleted <- row.names(SpOccurrences[deleted, ])
       deleted <- which(row.names(Occurrences) %in% deleted)
       if (length(deleted) > 0) {
@@ -127,12 +127,11 @@ load_occ <- function(path = getwd(), Env, file = NULL, ..., Xcol = "Longitude",
       }
     }
   }
-  lapply(seq_len(length(levels(Occurrences[, which(names(Occurrences) == Spcol)]))), mi_funcion)
-
   Occurrences <- droplevels(Occurrences)
 
   # Test species occurrences > 3
-  mi_funcion <- function(i) {
+  for (i in seq_len(length(levels(Occurrences[, which(names(Occurrences) ==
+                                                      Spcol)])))) {
     sp <- levels(as.factor(Occurrences[, which(names(Occurrences) ==
                                                  Spcol)]))[i]
     spocc <- subset(Occurrences, Occurrences[, which(names(Occurrences) ==
@@ -144,7 +143,6 @@ load_occ <- function(path = getwd(), Env, file = NULL, ..., Xcol = "Longitude",
                                                               Spcol)] == sp), ]
     }
   }
-  lapply(seq_len(length(levels(Occurrences[, which(names(Occurrences) ==Spcol)]))), mi_funcion)
   if (Spcol == "SpNULL") {
     Occurrences <- Occurrences[-which(names(Occurrences) == "SpNULL")]
   }

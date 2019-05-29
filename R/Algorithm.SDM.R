@@ -52,7 +52,7 @@ Algorithm.SDM <- function(algorithm = 'Algorithm',
 setClass('GLM.SDM',
          contains = 'Algorithm.SDM')
 
-setClass('GAM.SDM',
+setClass('BAM.SDM',
          contains = 'Algorithm.SDM')
 
 setClass('MARS.SDM',
@@ -67,11 +67,11 @@ setClass('GBM.SDM',
 setClass('RF.SDM',
          contains = 'Algorithm.SDM')
 
-setClass('MAXENT.SDM',
+setClass('MAXNET.SDM',
          contains = 'Algorithm.SDM')
 
 setClass('ANN.SDM',
          contains = 'Algorithm.SDM')
 
-setClass('SVM.SDM',
+setClass('KSVM.SDM',
          contains = 'Algorithm.SDM')

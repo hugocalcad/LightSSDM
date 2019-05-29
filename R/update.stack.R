@@ -37,7 +37,6 @@ NULL
 #'  the console.
 #'@param GUI logical. Don't take that argument into account (parameter for the
 #'  user interface).
-#'@param folder_tmp character. carpeta temporal para el ENV.
 #'@param ... additional parameters for the algorithm modelling function (see
 #'  details below).
 #'
@@ -61,13 +60,13 @@ setMethod('update', 'Stacked.SDM',
                    # Model creation
                    name = stack@name, save = FALSE, path = getwd(), thresh = 1001, tmp = FALSE,
                    # Verbose
-                   verbose = TRUE, GUI = FALSE, folder_tmp = NULL,
+                   verbose = TRUE, GUI = FALSE,
                    # Modelling parameters
                    ...) {
             # Check arguments
             .checkargs(Xcol = Xcol, Ycol = Ycol, Pcol = Pcol, Spname = Spname, name = name,
                        save = save, path = path, thresh = thresh, tmp = tmp, verbose = verbose,
-                       GUI = GUI, folder_tmp = folder_tmp)
+                       GUI = GUI)
 
             stack <- object
             # New ENM creation
@@ -95,7 +94,7 @@ setMethod('update', 'Stacked.SDM',
                                                                  ".", fixed = TRUE)[[1]][-1],
                                       ensemble.thresh = as.numeric(strsplit(stack@parameters$ensemble.thresh,
                                                                             "|", fixed = TRUE)[[1]][-1]),
-                                      weight = as.logical(stack@parameters$weight), folder_tmp = folder_tmp,
+                                      weight = as.logical(stack@parameters$weight),
                                       ...)
             if (verbose) {
               cat("   done.\n")

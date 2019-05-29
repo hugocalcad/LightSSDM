@@ -1,14 +1,12 @@
-Package: OSSDM
+Package: LightSSDM
 Type: Package
-Title: Stacked Species Distribution Modelling
+Title: Optimized SSDM Package for large dataset
 Version: 0.1.1.1001
 Author: Sylvain Schmitt, Robin Pouteau, Dimitri Justeau, Florian de Boissieu, Philippe Birnbaum
 Maintainer: Sylvain Schmitt <sylvain.schmitt@agroparistech.fr>
 URL: https://github.com/sylvainschmitt/SSDM
 BugReports: https://github.com/sylvainschmitt/SSDM/issues
-Description: Optimizacion de codigo utilizando tecnicas como ser la division de
-              raster, utilizando funciones con lapply y otros, el proposito
-              es el mismo del paquete original desarrollado por et. al. Schmitt.
+Description: Optimizacion de codigo paquete original desarrollado por et. al. Schmitt.
 License: GPL (>=3) | file LICENSE
 LazyData: TRUE
 Imports:
@@ -19,17 +17,16 @@ Imports:
     mgcv (>= 1.8.7),
     earth (>= 4.4.3),
     rpart (>= 4.1.10),
-    gbm (>= 2.1.1),
+    gbm (>= 2.1.5),
     randomForest (>= 4.6.10),
-    dismo (>= 1.0.12),
+    maxnet (>= 0.1.2),
     nnet (>= 7.3.10),
-    e1071 (>= 1.6.7),
+    kernlab (>= 0.9-27),
     shiny (>= 0.12.2),
     shinydashboard (>= 0.5.1),
     gplots (>= 0.1.0),
     shinyFiles (>= 0.6.0),
-    spThin (>= 0.1.0),
-    SpaDES.tools (>= 0.3.1)
+    spThin (>= 0.1.0)
 Depends:
     R (>= 3.2.2)
 Collate:
@@ -67,7 +64,7 @@ Suggests:
     knitr,
     rmarkdown,
     rgdal
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 VignetteBuilder: 
     knitr,
     rmarkdown,

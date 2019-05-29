@@ -1,4 +1,4 @@
 library(testthat)
-library(OSSDM)
+library(LightSSDM)
 
-test_check("OSSDM")
+test_check("LightSSDM")

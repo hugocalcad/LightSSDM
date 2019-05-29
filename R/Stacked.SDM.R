@@ -83,3 +83,4 @@ Stacked.SDM <- function(name = character(),
              algorithm.evaluation = algorithm.evaluation,
              enms = enms,
              parameters = parameters))}
+

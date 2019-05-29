@@ -39,7 +39,6 @@
                       endemism = 'WEI',
                       cores = 1,
                       MEM = FALSE,
-                      nraster = 1,
                       folder_tmp = NULL){
   ## Argument checking function
   ## Occurrences, Environment, and part of
@@ -275,12 +274,6 @@
   if (!inherits(cores, "numeric") || abs(cores - round(cores)) != 0 || cores <
       0) {
     stop("cores parameter should be an integer > 0 (see help).")
-  }
-
-  # nraster
-  if (!inherits(nraster, "numeric") || nraster > 10  || nraster <
-      1) {
-    stop("nraster parameter should be an integer between 1 and 10 (see help).")
   }
 
   #nfolder

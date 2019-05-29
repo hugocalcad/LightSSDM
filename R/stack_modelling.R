@@ -82,7 +82,6 @@ NULL
 #'@param cores integer. Specify the number of CPU cores used to do the
 #'  computing. You can use \code{\link[parallel]{detectCores}}) to automatically
 #'  used all the available CPU cores.
-#'@param folder_tmp character. Carpeta temporal para el ENV.
 #'@param ... additional parameters for the algorithm modelling function (see
 #'  details below).
 #'
@@ -91,12 +90,12 @@ NULL
 #'
 #'@details \describe{ \item{algorithms}{'all' allows you to call directly all
 #'  available algorithms. Currently, available algorithms include Generalized
-#'  linear model (\strong{GLM}), Generalized additive model (\strong{GAM}),
-#'  Multivariate adaptive regression splines (\strong{MARS}), Generalized
-#'  boosted regressions model (\strong{GBM}), Classification tree analysis
+#'  linear model (\strong{GLM}), Generalized additive model for large dataset(\strong{BAM}),
+#'  Multivariate adaptive regression splines (\strong{MARS}),
+#'  Boosted regressions model (\strong{GBM}), Classification tree analysis
 #'  (\strong{CTA}), Random forest (\strong{RF}), Maximum entropy
-#'  (\strong{MAXENT}), Artificial neural network (\strong{ANN}), and Support
-#'  vector machines (\strong{SVM}). Each algorithm has its own parameters
+#'  (\strong{MAXNET}), Artificial neural network (\strong{ANN}), and Support
+#'  vector machines (\strong{KSVM}). Each algorithm has its own parameters
 #'  settable with the \strong{...} (see each algorithm section below to set
 #'  their parameters).} \item{"PA"}{list with two values: \strong{nb} number of
 #'  pseudo-absences selected, and \strong{strat} strategy used to select
@@ -162,9 +161,9 @@ NULL
 #'  to 10e-08.} \item{maxit}{numeric. Integer giving the maximal number of IWLS
 #'  (Iterative Weighted Last Squares) iterations, default 500.} }
 #'
-#'@section Generalized additive model (\strong{GAM}) : Uses the \code{gam}
+#'@section Generalized additive model for large dsataset(\strong{BAM}) : Uses the \code{bam}
 #'  function from the package 'mgcv', you can set the following parameters (see
-#'  \code{\link[mgcv]{gam}} for more details): \describe{ \item{test}{character.
+#'  \code{\link[mgcv]{bam}} for more details): \describe{ \item{test}{character.
 #'  Test used to evaluate the model, default 'AIC'.} \item{epsilon}{numeric.
 #'  This is used for judging conversion of the GLM IRLS (Iteratively Reweighted
 #'  Least Squares) loop, default 10e-08.} \item{maxit}{numeric. Maximum number
@@ -177,18 +176,12 @@ NULL
 #'  meaning build an additive model (i.e., no interaction terms). By default,
 #'  set to 2.} }
 #'
-#'@section Generalized boosted regressions model (\strong{GBM}) : Uses the
+#'@section Boosted regressions model (\strong{GBM}) : Uses the
 #'  \code{gbm} function from the package 'gbm,' you can set the following
 #'  parameters (see \code{\link[gbm]{gbm}} for more details): \describe{
-#'  \item{trees}{integer. The total number of trees to fit. This is equivalent
+#'  \item{iterations}{integer. The total number of trees to fit. This is equivalent
 #'  to the number of iterations and the number of basis functions in the
-#'  additive expansion. By default, set to 2500.} \item{final.leave}{integer.
-#'  minimum number of observations in the trees terminal nodes. Note that this
-#'  is the actual number of observations not the total weight. By default, set
-#'  to 1.} \item{algocv}{integer. Number of cross-validations, default 3.}
-#'  \item{thresh.shrink}{integer. Number of cross-validation folds to perform.
-#'  If cv.folds>1 then gbm, in addition to the usual fit, will perform a
-#'  cross-validation. By default, set to 1e-03.} }
+#'  additive expansion. By default, set to 500.}}
 #'
 #'@section Classification tree analysis (\strong{CTA}) : Uses the \code{rpart}
 #'  function from the package 'rpart', you can set the following parameters (see
@@ -202,24 +195,22 @@ NULL
 #'  \code{\link[randomForest]{randomForest}} for more details): \describe{
 #'  \item{trees}{integer. Number of trees to grow. This should not be set to a
 #'  too small number, to ensure that every input row gets predicted at least a
-#'  few times. By default, set to 2500.} \item{final.leave}{integer. Minimum
+#'  few times. By default, set to 500.} \item{final.leave}{integer. Minimum
 #'  size of terminal nodes. Setting this number larger causes smaller trees to
 #'  be grown (and thus take less time). By default, set to 1.} }
 #'
-#'@section Maximum Entropy (\strong{MAXENT}) : Uses the \code{maxent} function
-#'  from the package 'dismo'. Make sure that you have correctly installed the
-#'  maxent.jar file in the folder ~\\R\\library\\version\\dismo\\java available
-#'  at \url{https://www.cs.princeton.edu/~schapire/maxent/} (see
-#'  \code{\link[dismo]{maxent}} for more details).
+#'@section Maximum Entropy (\strong{MAXNET}) : Uses the \code{maxnet} function
+#'  from the package 'maxnet'. Maxent species distribution modeling using glmnet for model fitting (see
+#'  \code{\link[maxnet]{maxnet}} for more details).
 #'
 #'@section Artificial Neural Network (\strong{ANN}) : Uses the \code{nnet}
 #'  function from the package 'nnet', you can set the following parameters (see
 #'  \code{\link[nnet]{nnet}} for more details): \describe{ \item{maxit}{integer.
 #'  Maximum number of iterations, default 500.} }
 #'
-#'@section Support vector machines (\strong{SVM}) : Uses the \code{svm} function
-#'  from the package 'e1071', you can set the following parameters (see
-#'  \code{\link[e1071]{svm}} for more details): \describe{ \item{epsilon}{float.
+#'@section Support vector machines (\strong{KSVM}) : Uses the \code{ksvm} function
+#'  from the package 'kernlab', you can set the following parameters (see
+#'  \code{\link[kernlab]{ksvm}} for more details): \describe{ \item{epsilon}{float.
 #'  Epsilon parameter in the insensitive loss function, default 1e-08.}
 #'  \item{algocv}{integer. If an integer value k>0 is specified, a k-fold
 #'  cross-validation on the training data is performed to assess the quality of
@@ -236,7 +227,7 @@ NULL
 #' data(Occurrences)
 #'
 #' # SSDM building
-#' SSDM <- stack_modelling(c('CTA', 'SVM'), Occurrences, Env, rep = 1,
+#' SSDM <- stack_modelling(c('CTA', 'KSVM'), Occurrences, Env, rep = 1,
 #'                        Xcol = 'LONGITUDE', Ycol = 'LATITUDE',
 #'                        Spcol = 'SPECIES')
 #'
@@ -299,7 +290,7 @@ stack_modelling <- function(algorithms,
                            # Range restriction and endemism
                            range = NULL, endemism = c('WEI','Binary'),
                            # Informations parameters
-                           verbose = TRUE, GUI = FALSE, cores = 1, folder_tmp = NULL,
+                           verbose = TRUE, GUI = FALSE, cores = 1,
                            # Modelling parameters
                            ...) {
   # Check arguments
@@ -308,20 +299,21 @@ stack_modelling <- function(algorithms,
              thresh = thresh, axes.metric = axes.metric, uncertainty = uncertainty,
              tmp = tmp, ensemble.metric = ensemble.metric, ensemble.thresh = ensemble.thresh,
              weight = weight, method = method, metric = metric, rep.B = rep.B, range = range,
-             endemism = endemism, verbose = verbose, GUI = GUI, cores = cores, folder_tmp = folder_tmp)
+             endemism = endemism, verbose = verbose, GUI = GUI, cores = cores)
 
   # Test if algorithm is available
-  available.algo <- c("GLM", "GAM", "MARS", "GBM", "CTA", "RF", "MAXENT",
-                      "ANN", "SVM")
+  available.algo <- c("GLM", "BAM", "MARS", "GBM", "CTA", "RF", "MAXNET",
+                      "ANN", "KSVM")
   if ("all" %in% algorithms) {
     algorithms <- available.algo
   }
   for (i in seq_len(length(algorithms))) {
     if (!(algorithms[[i]] %in% available.algo)) {
-      stop(algorithms[[i]], " is still not available, please use one of those : GLM, GAM, MARS, GBM, CTA, RF, MAXENT, ANN, SVM")
+      stop(algorithms[[i]], " is still not available, please use one of those : GLM, BAM, MARS, GBM, CTA, RF, MAXNET, ANN, KSVM")
     }
   }
   if (tmp) {
+    cat("temporal..... \n")
     tmppath <- get("tmpdir", envir = .PkgEnv)
     if (!("/.enms" %in% list.dirs(tmppath)))
       (dir.create(paste0(tmppath, "/.enms")))
@@ -333,7 +325,7 @@ stack_modelling <- function(algorithms,
   }
   species <- levels(as.factor(Occurrences[, which(names(Occurrences) == Spcol)]))
 
-  if (cores > 0 && requireNamespace("parallel", quietly = TRUE)) {
+  if (cores > 1 && requireNamespace("parallel", quietly = TRUE)) {
     if (verbose) {
       cat("Opening clusters,", cores, "cores \n")
     }
@@ -358,7 +350,7 @@ stack_modelling <- function(algorithms,
                                     PA = PA, cv = cv, cv.param = cv.param, thresh = thresh, metric = metric,
                                     axes.metric = axes.metric, uncertainty = uncertainty, tmp = tmp,
                                     ensemble.metric = ensemble.metric, ensemble.thresh = ensemble.thresh,
-                                    weight = weight, verbose = verbose, GUI = FALSE, n.cores = 1, folder_tmp = folder_tmp,
+                                    weight = weight, verbose = verbose, GUI = FALSE, n.cores = 1,
                                     ...))
       if (GUI) {
         incProgress(1/(length(levels(as.factor(Occurrences[, which(names(Occurrences) ==
@@ -382,6 +374,7 @@ stack_modelling <- function(algorithms,
           cat("\n\n")
         }
       }
+
       return(enm)
     })
     if (verbose) {
@@ -402,7 +395,7 @@ stack_modelling <- function(algorithms,
                                     PA = PA, cv = cv, cv.param = cv.param, thresh = thresh, metric = metric,
                                     axes.metric = axes.metric, uncertainty = uncertainty, tmp = tmp,
                                     ensemble.metric = ensemble.metric, ensemble.thresh = ensemble.thresh,
-                                    weight = weight, verbose = verbose, GUI = FALSE, folder_tmp = folder_tmp, ...))
+                                    weight = weight, verbose = verbose, GUI = FALSE, ...))
       if (GUI) {
         incProgress(1/(length(levels(as.factor(Occurrences[, which(names(Occurrences) ==
                                                                      Spcol)]))) + 1), detail = paste(species, " ensemble SDM built"))
@@ -420,7 +413,7 @@ stack_modelling <- function(algorithms,
                                                                  "/.enms/uncert", enm.name), overwrite = TRUE)
         }
         if (verbose) {
-          cat("\n\n")
+          cat("Terminado ",enm.name,"\n\n")
         }
       }
       return(enm)
