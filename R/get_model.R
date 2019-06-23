@@ -1,14 +1,14 @@
 #' @include Algorithm.SDM.R
 #' @import methods
 #' @importFrom raster raster stack extract predict reclassify layerStats calc
-#' @importFrom mgcv gam gam.control
+#' @importFrom mgcv bam gam.control
 #' @importFrom earth earth
 #' @importFrom rpart rpart rpart.control
 #' @importFrom gbm gbm
 #' @importFrom randomForest randomForest
-#' @importFrom dismo maxent
+#' @importFrom maxnet maxnet maxnet.formula
 #' @importFrom nnet nnet
-#' @importFrom e1071 svm
+#' @importFrom kernlab ksvm
 #' @importFrom stats aggregate.data.frame cor glm glm.control rbinom runif sd var
 #' @importFrom utils lsf.str read.csv read.csv2 tail write.csv
 NULL
@@ -45,7 +45,7 @@ setMethod("get_model", "GLM.SDM", function(obj, test = "AIC", epsilon = 1e-08,
   return(model)
 })
 
-setMethod("get_model", "GAM.SDM", function(obj, test = "AIC", epsilon = 1e-08,
+setMethod("get_model", "BAM.SDM", function(obj, test = "AIC", epsilon = 1e-08,
                                            maxit = 500, ...) {
   data <- obj@data[-c(which(names(obj@data) == "X"), which(names(obj@data) ==
                                                              "Y"))]
@@ -61,7 +61,7 @@ setMethod("get_model", "GAM.SDM", function(obj, test = "AIC", epsilon = 1e-08,
       formula <- paste0(formula, " + s(", var, ")")
     }
   }
-  model <- gam(formula(formula), data = data, test = test, control = gam.control(epsilon = epsilon,
+  model <- bam(formula(formula), data = data, test = test, control = gam.control(epsilon = epsilon,
                                                                                  maxit = maxit))
   for (i in seq_len(length(data))) {
     if (is.factor(data[, i])) {
@@ -88,8 +88,8 @@ setMethod("get_model", "CTA.SDM", function(obj, final.leave = 1, algocv = 3,
   return(model)
 })
 
-setMethod("get_model", "GBM.SDM", function(obj, trees = 2500, final.leave = 1,
-                                           algocv = 3, thresh.shrink = 0.001, n.cores = NULL, ...) {
+setMethod("get_model", "GBM.SDM", function(obj, trees = 250, final.leave = 1,
+                                           algocv = 3, thresh.shrink = 0.001, n.cores = 1, ...) {
   data <- obj@data[-c(which(names(obj@data) == "X"), which(names(obj@data) ==
                                                              "Y"))]
   if (all(data$Presence %in% c(0, 1)))
@@ -102,7 +102,7 @@ setMethod("get_model", "GBM.SDM", function(obj, trees = 2500, final.leave = 1,
   return(model)
 })
 
-setMethod("get_model", "RF.SDM", function(obj, trees = 2500, final.leave = 1,
+setMethod("get_model", "RF.SDM", function(obj, trees = 250, final.leave = 1,
                                           ...) {
   data <- obj@data[-c(which(names(obj@data) == "X"), which(names(obj@data) ==
                                                              "Y"))]
@@ -111,15 +111,11 @@ setMethod("get_model", "RF.SDM", function(obj, trees = 2500, final.leave = 1,
   return(model)
 })
 
-setMethod("get_model", "MAXENT.SDM", function(obj, Env, ...) {
-  factors <- c()
-  for (i in 4:length(names(obj@data))) {
-    if (is.factor(obj@data[, i])) {
-      factors <- c(factors, names(obj@data)[i])
-    }
-  }
-  model <- maxent(x = Env, p = obj@data[which(obj@data$Presence == 1),
-                                        1:2], a = obj@data[which(obj@data$Presence == 0), 1:2], factors = factors)
+setMethod("get_model", "MAXNET.SDM", function(obj, ...) {
+  data <- obj@data[-c(which(names(obj@data) == "X"), which(names(obj@data) ==
+                                                             "Y"))]
+  model <- maxnet(p = data$Presence, data = data[-data$Presence],
+                  f=maxnet.formula(p=data$Presence, data=data[-data$Presence], classes='lq'))
   return(model)
 })
 
@@ -130,11 +126,11 @@ setMethod("get_model", "ANN.SDM", function(obj, maxit = 500, ...) {
   return(model)
 })
 
-setMethod("get_model", "SVM.SDM", function(obj, epsilon = 1e-08, algocv = 3,
+setMethod("get_model", "KSVM.SDM", function(obj, epsilon = 1e-08, algocv = 3,
                                            ...) {
   data <- obj@data[-c(which(names(obj@data) == "X"), which(names(obj@data) ==
                                                              "Y"))]
-  model <- svm(Presence ~ ., data = data, type = "eps-regression",
-               gamma = 1/(length(data) - 1), kernel = "radial", epsilon = epsilon, cross = algocv)
+  model <- ksvm(Presence ~ ., data = data, type = "eps-svr",
+                kernel = "rbfdot", epsilon = epsilon, cross = algocv)
   return(model)
 })

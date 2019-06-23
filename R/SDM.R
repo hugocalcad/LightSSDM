@@ -2,14 +2,14 @@
 #' @importFrom sp Polygon Polygons SpatialPolygons bbox
 #' @importFrom raster raster stack extract predict reclassify layerStats calc
 #' @importFrom SDMTools optim.thresh accuracy
-#' @importFrom mgcv gam gam.control
+#' @importFrom mgcv bam gam.control
 #' @importFrom earth earth
 #' @importFrom rpart rpart rpart.control
 #' @importFrom gbm gbm
 #' @importFrom randomForest randomForest
-#' @importFrom dismo maxent
+#' @importFrom maxnet maxnet
 #' @importFrom nnet nnet
-#' @importFrom e1071 svm
+#' @importFrom kernlab ksvm
 #' @importFrom grDevices heat.colors is.raster rainbow terrain.colors
 #' @importFrom graphics arrows barplot legend
 #' @importFrom stats aggregate.data.frame cor glm glm.control rbinom runif sd var

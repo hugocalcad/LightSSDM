@@ -4,6 +4,7 @@
 #' native to New Caledonia. Occurrence data come from  the Noumea Herbarium
 #' (NOU) and NC-PIPPN network (see Ibanez et al (2014) in reference below).
 #'
+#'
 #' @format A data frame with 57 rows and 3 variables: \describe{
 #'   \item{SPECIES}{Species of the occurrence} \item{LONGITUDE}{Longitude of the
 #'   occurrence} \item{LATITUDE}{Latitude of the occurrence} }

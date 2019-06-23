@@ -13,19 +13,28 @@
 NULL
 
 #'Plot SDMs, ensemble SDMs, and SSDMs
+#'\strong{(Esp)} Grafica SDMs, SDMs ensmblados, y SSDMs
 #'
 #'Allows to plot S4 \linkS4class{Algorithm.SDM}, \linkS4class{Ensemble.SDM} and
 #'\linkS4class{Stacked.SDM} class objects.
+#'\strong{(Esp)} Permite graficar S4 \linkS4class{Algorithm.SDM}, \linkS4class{Ensemble.SDM} y
+#'\linkS4class{Stacked.SDM} class objects.
 #'
-#'@param x Object to be plotted (S4 Algorithm.SDM, Ensemble.SDM or Stacked.SDM
-#'  object).
+#'@param x Object to be plotted (S4 Algorithm.SDM, Ensemble.SDM or Stacked.SDM object).
+#'\strong{(Esp)} Objeto a ser graficado (S4 Algorithm.SDM, Ensemble.SDM ó Stacked.SDM object)
 #'@param y,... Plot-based parameter not used.
+#'\strong{(Esp)} Parámetro de graficos(plot) no usados.
 #'
 #'@return Open a window with a shiny app rendering all the results (habitat
 #'  suitability map, binary map, evaluation table, variable importance and/or
 #'  between-algorithm variance map, and/or algorithm evaluation,  and/or
 #'  algorithm correlation matrix and/or local species richness map) in a
 #'  user-friendly interface.
+#'
+#'\strong{(Esp)} Abre un ventana con la aplicación shiny representando todos los resultados
+#'  (mapa de idoneidad de de hábitat, mapa binario, tabla de evaluación, variable de importancia
+#'  y/o mapa de varianza entre algoritmos, y/o evalución de algortimos, y/o matriz de
+#'  correlación de algoritmos y/o mapa local de riqueza de especies) en una interfaz de usuario amigable.
 #'
 #'@name plot.model
 #'

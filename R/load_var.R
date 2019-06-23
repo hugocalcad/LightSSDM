@@ -4,45 +4,61 @@
 NULL
 
 #'Load environmental variables
+#'\strong{(Esp)} Cargar variables ambientales
 #'
 #'Function to load environmental variables in the form of rasters to perform
-#'\code{\link{modelling}}, \code{\link{ensemble_modelling}} or
-#'\code{\link{stack_modelling}}.
+#'\code{\link{modelling}}, \code{\link{ensemble_modelling}} or \code{\link{stack_modelling}}.
+#'\strong{(Esp)} Función para cargar varaibles ambientales en el formato ráster para realizar
+#'\code{\link{modelling}}, \code{\link{ensemble_modelling}} ó \code{\link{stack_modelling}}.
 #'
-#'@param path character. Path to the directory that contains the environmental variables
-#'  files.
+#'@param path character. Path to the directory that contains the environmental variables files.
+#'  \strong{(Esp)} Ruta del directorio que contiene las variables ambientales
 #'@param files character. Files containing the environmental variables If NULL
-#'  (default) all files present in the path in the selected format will
-#'  be loaded.
+#'  (default) all files present in the path in the selected format will be loaded.
+#'  \strong{(Esp)} Archivos que contienen las variables ambientales si es NULL (por defecto) todos
+#'  los archivos en la ruta seleccionada serán cargadas.
 #'@param format character. Format of environmental variables files
 #'  (including .grd, .tif, .asc, .sdat, .rst, .nc, .tif, .envi, .bil, .img).
+#'  \strong{(Esp)} Formato de los archivos de las variables ambientales
+#'  (incluye .grd, .tif, .asc, .sdat, .rst, .nc, .tif, .envi, .bil, .img).
 #'@param categorical character. Specify whether an environmental variable is a categorical variable.
+#'  \strong{(Esp)} Especifica si una variable ambiental es una variable categorica.
 #'@param Norm logical. If set to true, normalizes environmental variables between 0 and 1.
+#'  \strong{(Esp)}. Si es verdadero (\code{TRUE}), normaliza las variables ambientales entre 0 y 1.
 #'@param tmp logical. If set to true, rasters are
 #'  read in temporary file avoiding to overload the random access memory. But
 #'  beware: if you close R, temporary files will be deleted.
-#'@param verbose logical. If set to true, allows the function to print text in the
-#'  console.
+#'  \strong{(Esp)} Si es verdadero (\code{TRUE}), los rásters son almacenados en un archivo temporal
+#'  para evitar la sobrecarga de la memoria RAM. Pero ha que tener cuidado: Si se cierra R,
+#'  los archivos temporales serán eliminados.
+#'@param verbose logical. If set to true, allows the function to print text in the console.
+#'  \strong{(Esp)} Si es verdadero (\code{TRUE}) imprime texto en la consola.
 #'@param GUI logical. Do not take that argument into account (parameter for the
 #'  user interface).
+#'  \strong{(Esp)} No tomar en cuenta este argumento (parámetro para la interfaz de usuario)
+#'@param folder_tmp character. File name where  environment variables are stored,
+#' only if tmp is true.
+#' \strong{(Esp)} Nombre de archivo donde  las variables ambientales son almacenadas,
+#' solamente si 'tmp' es verdadero (\code{TRUE}).
 #'
-#'@return A stack containing the environmental rasters (normalized or
-#'  not).
+#'@return A stack containing the environmental rasters (normalized or not).
+#'  \strong{(Esp)} Una pila que contiene los ráster ambientales (normalizado o no).
 #'
 #' @examples
 #' \dontrun{
-#' load_var(system.file('extdata',  package = 'SSDM'))
+#' load_var(system.file('extdata',  package = 'LightSSDM'))
 #' }
 #'
 #'@seealso \code{\link{load_occ}} to load occurrences.
+#' \strong{(Esp)} para cargar ocurrencias.
 #'
 #'@export
 load_var <- function(path = getwd(), files = NULL, format = c(".grd", ".tif",
                                                               ".asc", ".sdat", ".rst", ".nc", ".envi", ".bil", ".img"), categorical = NULL,
-                     Norm = TRUE, tmp = TRUE, verbose = TRUE, GUI = FALSE) {
+                     Norm = TRUE, tmp = TRUE, verbose = TRUE, GUI = FALSE, folder_tmp = NULL) {
   # Check arguments
   .checkargs(path = path, files = files, format = format, categorical = categorical,
-             Norm = Norm, tmp = tmp, verbose = verbose, GUI = GUI)
+             Norm = Norm, tmp = tmp, verbose = verbose, GUI = GUI, folder_tmp = folder_tmp)
 
   # pdir = getwd()
   if (verbose) {
@@ -161,8 +177,7 @@ load_var <- function(path = getwd(), files = NULL, format = c(".grd", ".tif",
         Env[[i]] <- Env[[i]]/Env[[i]]@data@max
       }
       if (GUI) {
-        incProgress((1/length(Env@layers)/3), detail = paste(i,
-                                                             "normalized"))
+        incProgress((1/length(Env@layers)/3), detail = paste(i, "normalized"))
       }
     }
   }
@@ -172,11 +187,23 @@ load_var <- function(path = getwd(), files = NULL, format = c(".grd", ".tif",
   # Temporary files
   if (tmp) {
     path <- get("tmpdir", envir = .PkgEnv)
+
     if (!(file.path(path, ".rasters") %in% list.dirs(path)))
       (dir.create(paste0(path, "/.rasters")))
-    for (i in seq_len(length(Env@layers))) {
-      Env[[i]] <- writeRaster(Env[[i]], paste0(path, "/.rasters/",
-                                               names(Env[[i]])), overwrite = TRUE)
+
+    if(!is.null(folder_tmp)){
+      if (!(file.path(path, ".rasters", folder_tmp ) %in% list.dirs(paste0(path, "/.rasters"))))
+        (dir.create(paste0(path, "/.rasters/",folder_tmp)))
+      for (i in seq_len(length(Env@layers))) {
+        Env[[i]] <- writeRaster(Env[[i]], paste0(path, "/.rasters/", folder_tmp, "/",
+                                                 names(Env[[i]])), overwrite = TRUE)
+      }
+    }
+    else{
+      for (i in seq_len(length(Env@layers))) {
+        Env[[i]] <- writeRaster(Env[[i]], paste0(path, "/.rasters/",
+                                                 names(Env[[i]])), overwrite = TRUE)
+      }
     }
   }
 

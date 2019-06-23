@@ -5,6 +5,7 @@
 NULL
 
 #'Stack different ensemble SDMs in an SSDM
+#'\strong{(Esp)} Apilado de diferentes SDMs en una SSDM
 #'
 #'This is a function to stack several ensemble SDMs in an SSDM. The function
 #'takes as inputs several S4 \linkS4class{Ensemble.SDM} class objects produced
@@ -14,56 +15,94 @@ NULL
 #'evaluation tables coming with (model evaluation, algorithm evaluation,
 #'algorithm correlation matrix and variable importance), and a list of ensemble
 #'SDMs for each species (see \code{\link{ensemble_modelling}}).
+#'\strong{(Esp)} Esta es una función para apilar varios SDM de conjunto en un SSDM. La función
+#'toma como entradas varios objetos de la clase S4 \linkS4class{Ensemble.SDM} producidos con
+#'\code{ensemble_modelling} o con \code{ensemble}. La función devuelve un objeto de
+#'clase S4 \linkS4class{Stacked.SDM} que contiene el mapa de riqueza de especies local,
+#'el mapa de varianza entre algoritmos y todas las tablas de evaluación que vienen con
+#'(evaluación del modelo, evaluación del algoritmo, matriz de correlación del algoritmo y
+#'importancia de la variable) y una lista de conjuntos SDM para cada especie (ver code{\link{ensemble_modelling}}).
 #'
 #'@param enm,... character. Ensemble SDMs to be stacked.
+#'\strong{(Esp)} SDMs ensamblados a ser apilados.
 #'@param name character. Optional name given to the final SSDM produced (by
 #'  default 'Species.SDM').
+#'\strong{(Esp)} Nombre opcional dado al producto final SSDM producido ( por defecto 'Species.SDM')
 #'@param method character. Define the method used to create the local species
 #'  richness map (see details below).
+#'\strong{(Esp)} Define el método usado para crea el mapa local de riquezas de especies (ver más detalles abajo)
 #'@param rep.B integer. If the method used to create the local species richness
 #'  is the random bernoulli (\strong{Bernoulli}), rep.B parameter defines the number of
 #'  repetitions used to create binary maps for each species.
+#'\strong{(Esp)} Si el método usado para crear la distribución local de especies es el Bernoulli
+#'  aleatorio (\strong{Bernoulli}), se define como el númeor de repeticiones para crear el mapa
+#'  binario por cada especie.
 #'@param Env raster object. Stacked raster object of environmental variables
 #'  (can be processed first by \code{\link{load_var}}). Needed only for stacking
 #'  method using probability ranking from richness (\strong{PRR}).
+#'\strong{(Esp)} Pila de rasters de las variables ambientales (que puede ser procesado primero
+#'  por \code{\link{load_var}})). Solo se necesita para el método de apilamiento mediante la
+#'  clasificación de probabilidad de la riqueza (PRR)
 #'@param range integer. Set a value of range restriction (in pixels) around
 #'  presences occurrences on habitat suitability maps (all further points will
 #'  have a null probability, see Crisp et al (2011) in references). If NULL, no
 #'  range restriction will be applied.
-#'@param endemism character. Define the method used to create an endemism map
-#'  (see details below).
-#'@param verbose logical. If set to true, allows the function to print text in
-#'  the console.
+#'\strong{(Esp)} Establece un valor de un rango de restricción (en pixeles) cerca a la
+#' presencia de ocurrencias en el mapa de idoneidad de hábitat (todos los puntos lejanos
+#' tendran una probabilidad nula, ver Crisp et al (2011) en referencias). Si es NULL, no
+#' se aplicara ninguna restricción de rango.
+#'@param endemism character. Define the method used to create an endemism map (see details below).
+#'#'\strong{(Esp)} define el metodo usado para crear un mapa de endemismo (ver detalles más abajo).
+#'@param verbose logical. If set to true, allows the function to print text in the console.
+#'\strong{(Esp)} Si es verdadero (\code{TRUE}), permite la función de imprimir texto en la consola.
 #'@param GUI logical. Don't take that argument into account (parameter for the
 #'  user interface).
+#'\strong{(Esp)} No tomar este arguento en cuenta(Parametro para la interfaz de usuario)
 #'
 #'@return an S4 \linkS4class{Stacked.SDM} class object viewable with the
 #'  \code{\link{plot.model}} function.
+#'\strong{(Esp)} retorna un objeto de clase S4 \linkS4class{Stacked.SDM} visible con la función
+#'  \code{\link{plot.model}}
 #'
 #'@details \strong{Methods:} Choice of the method used to compute the local
 #'  species richness map (see Calabrese et al. (2014) and D'Amen et al (2015) for
-#'  more informations, see reference below): \describe{\item{pSSDM}{sum
-#'  probabilities of habitat suitability maps}\item{Bernoulli}{draw repeatedly
-#'  from a Bernoulli distribution}\item{bSSDM}{sum the binary map obtained with
-#'  the thresholding (depending on the metric of the
-#'  ESDM).}\item{MaximumLikelihood}{adjust species richness of the model by
-#'  linear regression}\item{PRR.MEM}{model richness with a macroecological model
-#'  (MEM) and adjust each ESDM binary map by ranking habitat suitability and
-#'  keeping as much as predicted richness of the MEM}\item{PRR.pSSDM}{model
+#'  more informations, see reference below): \strong{(Esp)} Elige el método usado para procesar
+#'  el mapa de riqueza de especies (ver Calabrese et al. (2014) y D'Amen el al (2015) para
+#'  más información ver referencias abajo): \describe{\item{pSSDM}{sum
+#'  probabilities of habitat suitability maps. \strong{(Esp)} suma de probabilidades de los
+#'  mapas de idoneidad del hábitat}\item{Bernoulli}{draw repeatedly
+#'  from a Bernoulli distribution. \strong{(Esp)} dibujar repetidamente una distribución de Bernoulli}
+#'  \item{bSSDM}{sum the binary map obtained with the thresholding (depending on the metric of the
+#'  ESDM). \strong{(Esp)} suma el mapa binario obtenido con el umbral (según la métrica del ESDM).}
+#'  \item{MaximumLikelihood}{adjust species richness of the model by
+#'  linear regression. \strong{(Esp)} Ajustar la riqueza de especies del modelo mediante regresión lineal.}
+#'  \item{PRR.MEM}{model richness with a macroecological model (MEM) and adjust each ESDM binary map by
+#'  ranking habitat suitability and keeping as much as predicted richness of the MEM. \strong{(Esp)}
+#'  Modela la riqueza con un modelo macroecológico (MEM) y ajuste cada mapa binario de ESDM clasificando
+#'  la aptitud del hábitat y manteniendo la riqueza predicha del MEM.}\item{PRR.pSSDM}{model
 #'  richness with a pSSDM and adjust each ESDM binary map by ranking habitat
-#'  suitability and keeping as much as predicted richness of the pSSDM}}
+#'  suitability and keeping as much as predicted richness of the pSSDM. \strong{(Esp)} Modela la riqueza con un
+#'  pSSDM y ajuste cada mapa binario de ESDM clasificando la idoneidad del hábitat y manteniendo la riqueza predicha del pSSDM}}
 #'
 #'  \strong{Endemism:} Choice of the method used to compute the endemism map
-#'  (see Crisp et al. (2001) for more information, see reference below):
-#'  \describe{\item{NULL}{No endemism map}\item{WEI}{(Weighted Endemism Index)
+#'  (see Crisp et al. (2001) for more information, see reference below): \strong{(Esp)} Elige
+#'  el método usado para procesar el mapa de endemismo  (ver
+#'  Crisp et al. (2001) para mas infformación, ver referencias más abajo):
+#'  \describe{\item{NULL}{No endemism map. \strong{(Esp)} Sin mapa de endemismo.}\item{WEI}{(Weighted Endemism Index)
 #'  Endemism map built by counting all species in each cell and weighting each
-#'  by the inverse of its range} \item{CWEI}{(Corrected Weighted Endemism Index)
+#'  by the inverse of its range. \strong{(Esp)} (Indice de endemismo ponderado)
+#'  Mapa de endemismo construido al contar todas las especies en cada celda y ponderar
+#'  cada una por el inverso de su rango.} \item{CWEI}{(Corrected Weighted Endemism Index)
 #'  Endemism map built by dividing the weighted endemism index by the total
 #'  count of species in the cell.}}First string of the character is the method
 #'  either WEI or CWEI, and in those cases second string of the vector is used
-#'  to precise range calculation, whether the total number of occurrences
+#'  to precise range calculation, whether the total number of occurrences.
+#'  \strong{(Esp)} (Indice de endemismo ponderado corregido)
+#'  el mapa de endemismo construido dividiendo el índice de endemismo ponderado por el recuento total
+#'  de especies en la celda. La primera cadena del carácter es el método WEI o CWEI, y en esos casos
+#'  la segunda cadena del vector se usa para el cálculo preciso del rango, ya sea el número total de ocurrencias.
 #'  \strong{'NbOcc'} whether the surface of the binary map species distribution
-#'  \strong{'Binary'}.
+#'  \strong{'Binary'}. \strong{(Esp)} si la superficie de la distribución de las especies del mapa binario \strong{'Binary'}.
 #'
 #' @examples
 #' \dontrun{

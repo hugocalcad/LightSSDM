@@ -9,26 +9,40 @@
 NULL
 
 #' Evaluate
+#' \strong{(Esp)} Evaluar
 #'
 #' Evaluation of SDM or ESDM habitat suitability predictions or evalaution of
 #' SSDM floristic composition with Pottier et al, 2013 method (see reference
 #' below)
+#' \strong{(Esp)} Evaluación de las predicciones de idoneidad del hábitat de SDM o
+#' ESDM o la evolución de la composición florística de SSDM con Pottier et al,
+#' método de 2013 (consulte la referencia más abajo)
 #'
-#' @param obj Stacked.SDM. SSDM to evaluate
+#' @param obj Stacked.SDM. SSDM to evaluate.
+#' \strong{(Esp)} SSDM a evaluar.
 #' @param cv character. Method of cross-validation used to evaluate the SDM (see
 #'  details below).
+#'  \strong{(Esp)} Método de validación cruzada usada para evaluar el SDM
+#'  (ver detalles más abajo).
 #' @param cv.param numeric. Parameters associated to the method of
 #'  cross-validation used to evaluate the SDM (see details below).
 #' @param thresh numeric. A single integer value representing the number of equal
-#'  interval threshold values between 0 and 1 (see
-#'  \code{\link[SDMTools]{optim.thresh}}).
+#'  interval threshold values between 0 and 1 (see \code{\link[SDMTools]{optim.thresh}}).
+#'  \strong{(Esp)} Un solo valor entero que representa el número de valores de umbral de
+#'  intervalo iguales entre 0 y 1 (ver \code{\link[SDMTools]{optim.thresh}})
 #' @param metric character. Metric(s) used to select the best SDMs that will be
 #'  included in the ensemble SDM (see details below).
+#'  \strong{(Esp)} Métrica(s) usada(s) para seleccionar los mejores SDMs que seran
+#'  incluidos en el SDM ensamblado (ver detalles más abajo)
 #' @param Env raster object. Stacked raster object of environmental variables
 #'  (can be processed first by \code{\link{load_var}}).
+#'  \strong{(Esp)} Objeto apilado de ráster de variables ambientales (puede ser
+#'  procesado primero por \code{\link{load_var}}).
 #' @param ... unused argument
+#' \strong{(Esp)} argumentos sin uso.
 #'
 #' @return SDM/ESDM/SSDM evaluation in a data.frame
+#'\strong{(Esp)} devuelve un SDM/ESDM/SSDM evaluado en un data.frame
 #'
 #' @examples
 #'
@@ -37,7 +51,7 @@ NULL
 #' data(Env)
 #' data(Occurrences)
 #' # SSDM building
-#' SSDM <- stack_modelling(c('CTA', 'SVM'), Occurrences, Env, rep = 1,
+#' SSDM <- stack_modelling(c('CTA', 'KSVM'), Occurrences, Env, rep = 1,
 #'                        Xcol = 'LONGITUDE', Ycol = 'LATITUDE',
 #'                        Spcol = 'SPECIES')
 #'
@@ -95,7 +109,10 @@ setMethod("evaluate", "Algorithm.SDM", function(obj, cv, cv.param, thresh = 1001
         trainobj <- obj
         trainobj@data <- traindata
         model <- get_model(trainobj, ...)
-        predicted.values <- predict(model, evaldata)
+        if(obj@name == 'MAXNET.SDM')
+          predicted.values <- predict(model, evaldata[,4:length(evaldata)], type = 'logistic')
+        else
+          predicted.values <- predict(model, evaldata[,4:length(evaldata)])
         threshold <- optim.thresh(evaldata$Presence, predicted.values,
                                   thresh)
         threshold <- mean(threshold[[which(names(threshold) == metric)]])
@@ -136,7 +153,10 @@ setMethod("evaluate", "Algorithm.SDM", function(obj, cv, cv.param, thresh = 1001
           trainobj <- obj
           trainobj@data <- traindata
           model <- get_model(trainobj, ...)
-          predicted.values <- predict(model, evaldata)
+          if(obj@name == 'MAXNET.SDM')
+            predicted.values <- predict(model, evaldata[,4:length(evaldata)], type = 'logistic')
+          else
+            predicted.values <- predict(model, evaldata[,4:length(evaldata)])
           threshold <- optim.thresh(evaldata$Presence, predicted.values,
                                     thresh)
           threshold <- mean(threshold[[which(names(threshold) ==
@@ -159,7 +179,10 @@ setMethod("evaluate", "Algorithm.SDM", function(obj, cv, cv.param, thresh = 1001
         trainobj <- obj
         trainobj@data <- traindata
         model <- get_model(trainobj, ...)
-        predicted.values[j] <- predict(model, evaldata)
+        if(obj@name == 'MAXNET.SDM')
+          predicted.values[j] <- predict(model, evaldata[,4:length(evaldata)], type = "logistic")
+        else
+          predicted.values[j] <- predict(model, evaldata[,4:length(evaldata)])
       }
       threshold <- optim.thresh(data$Presence, predicted.values, thresh)
       threshold <- mean(threshold[[which(names(threshold) == metric)]])
@@ -177,115 +200,6 @@ setMethod("evaluate", "Algorithm.SDM", function(obj, cv, cv.param, thresh = 1001
 
   return(obj)
 })
-
-#' @rdname evaluate
-#' @export
-setMethod("evaluate", "MAXENT.SDM", function(obj, cv, cv.param, thresh = 1001, metric = 'SES', Env, ...) {
-  # Parameters
-  text.cv.param <- character()
-  for (i in seq_len(length(cv.param))) {
-    text.cv.param <- paste0(text.cv.param, "|", cv.param[i])
-  }
-  obj@parameters$cv <- cv
-  obj@parameters$cv.param <- text.cv.param
-  obj@parameters$metric <- metric
-
-  if (all(obj@data$Presence %in% c(0, 1))) {
-    # Binary data of SDM model
-
-    metric <- switch(metric, Kappa = "maxKappa", CCR = "max.prop.correct",
-                     TSS = "max.sensitivity+specificity", SES = "sensitivity=specificity",
-                     LW = "min.occurence.prediction", ROC = "min.ROC.plot.distance")
-    if (cv == "holdout") {
-      for (i in 1:cv.param[2]) {
-        data <- obj@data
-        data$train <- FALSE
-        for (p in 0:1) {
-          datap <- data[which(data$Presence == p), ]
-          datap$train[sample.int(length(datap$train), round(length(datap$train) *
-                                                              cv.param[1]))] <- TRUE
-          data[which(data$Presence == p), ] <- datap
-        }
-        evaldata <- data[-which(data$train), ]
-        evaldata <- evaldata[-which(names(data) == "train")]
-        traindata <- data[which(data$train), ]
-        traindata <- traindata[-which(names(data) == "train")]
-        trainobj <- obj
-        trainobj@data <- traindata
-        model <- get_model(trainobj, Env)
-        predicted.values <- predict(model, evaldata)
-        threshold <- optim.thresh(evaldata$Presence, predicted.values,
-                                  thresh)
-        threshold <- mean(threshold[[which(names(threshold) == metric)]])
-        roweval <- accuracy(evaldata$Presence, predicted.values, threshold)
-        if (i == 1) {
-          evaluation <- roweval
-        } else {
-          evaluation <- rbind(evaluation, roweval)
-        }
-      }
-    } else {
-      if (cv == "LOO") {
-        k <- length(obj@data$Presence)
-        rep <- cv.param[1]
-      }
-      if (cv == "k-fold") {
-        k <- cv.param[1]
-        rep <- cv.param[2]
-      }
-      for (i in seq_len(length(rep))) {
-        data <- obj@data
-        data$fold <- 0
-        for (p in 0:1) {
-          datap <- data[which(data$Presence == p), ]
-          indices <- seq_len(length(datap$fold))
-          fold <- 1
-          while (length(indices) > 0) {
-            j <- sample(indices, 1)
-            datap$fold[j] <- fold
-            indices <- indices[-which(indices == j)]
-            if (fold != k) {
-              fold <- fold + 1
-            } else {
-              fold <- 1
-            }
-          }
-          data[which(data$Presence == p), ] <- datap
-        }
-        for (j in 1:k) {
-          evaldata <- data[which(data$fold == j), ]
-          evaldata <- evaldata[-which(names(data) == "fold")]
-          traindata <- data[which(data$fold != j), ]
-          traindata <- traindata[-which(names(data) == "fold")]
-          trainobj <- obj
-          trainobj@data <- traindata
-          model <- get_model(trainobj, Env)
-          predicted.values <- predict(model, evaldata)
-          threshold <- optim.thresh(evaldata$Presence, predicted.values,
-                                    thresh)
-          threshold <- mean(threshold[[which(names(threshold) ==
-                                               metric)]])
-          roweval <- accuracy(evaldata$Presence, predicted.values,
-                              threshold)
-          if (i == 1 && j == 1) {
-            evaluation <- roweval
-          } else {
-            evaluation <- rbind(evaluation, roweval)
-          }
-        }
-      }
-    }
-    obj@evaluation <- evaluation[1, ]
-    for (i in seq_len(length(evaluation))) {
-      obj@evaluation[i] <- mean(evaluation[, i], na.rm = TRUE)
-    }
-
-  } else {
-    # Conitnuous values of MEMs
-    warning("Evaluation is not yet implemented for continuous data of MEMs !")
-  }
-
-  return(obj)})
 
 #' @rdname evaluate
 #' @export

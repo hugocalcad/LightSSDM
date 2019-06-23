@@ -356,7 +356,7 @@ serverWD <- function(working.directory){
         title = 'Algorithms'
         multiple = TRUE
       }
-      selectInput('algo', title, c('GLM','GAM','MARS','GBM','CTA','RF','MAXENT','ANN','SVM'), multiple = multiple, selectize = TRUE)})
+      selectInput('algo', title, c('GLM','BAM','MARS','GBM','CTA','RF','MAXNET','ANN','KSVM'), multiple = multiple, selectize = TRUE)})
     output$repUI <- renderUI({if(input$modellingchoice != 'Algorithm modelling'){sliderInput('rep','Repetitions',1,50,10, step = 1)}})
     output$nameUI <- renderUI({textInput('name','Name')})
     output$uncertUI <- renderUI({if(input$modellingchoice != 'Algorithm modelling'){checkboxInput('uncert', 'Uncertainty mapping', value = TRUE)}})
@@ -484,14 +484,14 @@ serverWD <- function(working.directory){
     ## Advanced modelling parameters ##
     output$tmpUI <- renderUI({if(input$modellingchoice != 'Algorithm modelling'){checkboxInput('tmp', 'Temporary files', value = FALSE)}})
     output$tmpinfoUI <- renderUI({if(input$modellingchoice != 'Algorithm modelling'){p('Rasters are saved in temporary files to release memory')}})
-    output$testUI <- renderUI({if('GLM' %in% input$algoparam || 'GAM' %in% input$algoparam){selectInput('test','Test (GLM/GAM)',c('AIC', 'BIC'))}})
-    output$epsilonUI <- renderUI({if('GLM' %in% input$algoparam || 'GAM' %in% input$algoparam || 'SVM' %in% input$algoparam){sliderInput('epsilon','Epsilon (GLM/GAM/SVM) = 1e-X',1,20,8, step = 1)}})
-    output$maxitUI <- renderUI({if('GLM' %in% input$algoparam || 'GAM' %in% input$algoparam || 'ANN' %in% input$algoparam){sliderInput('maxit','Maximum number of iterations (GLM/GAM/ANN)',100,1000,500, step = 100)}})
+    output$testUI <- renderUI({if('GLM' %in% input$algoparam || 'BAM' %in% input$algoparam){selectInput('test','Test (GLM/BAM)',c('AIC', 'BIC'))}})
+    output$epsilonUI <- renderUI({if('GLM' %in% input$algoparam || 'BAM' %in% input$algoparam || 'KSVM' %in% input$algoparam){sliderInput('epsilon','Epsilon (GLM/BAM/KSVM) = 1e-X',1,20,8, step = 1)}})
+    output$maxitUI <- renderUI({if('GLM' %in% input$algoparam || 'BAM' %in% input$algoparam || 'ANN' %in% input$algoparam){sliderInput('maxit','Maximum number of iterations (GLM/BAM/ANN)',100,1000,500, step = 100)}})
     output$degreeUI <- renderUI({if('MARS' %in% input$algoparam){sliderInput('degree','Degree of interaction (MARS)',1,10,2, step = 1)}})
     output$threshshrinkUI <- renderUI({if('GBM' %in% input$algoparam){sliderInput('threshshrink','Shrinkage threshold (GBM)',1e-05,1,1e-03, step = 1e-04)}})
     output$treesUI <- renderUI({if('GBM' %in% input$algoparam || 'RF' %in% input$algoparam){sliderInput('trees','Maximum number of trees (GBM/RF)',500,10000,2500, step = 500)}})
     output$finalleaveUI <- renderUI({if('GBM' %in% input$algoparam || 'RF' %in% input$algoparam || 'CTA' %in% input$algoparam){sliderInput('finalleave','Final leaves size (GBM/CTA/RF)',1,20,1, step = 1)}})
-    output$cvUI <- renderUI({if('GBM' %in% input$algoparam || 'CTA' %in% input$algoparam || 'SVM' %in% input$algoparam){sliderInput('cv','Cross-validation number (GBM/CTA/SVM)',1,20,3, step = 1)}})
+    output$cvUI <- renderUI({if('GBM' %in% input$algoparam || 'CTA' %in% input$algoparam || 'KSVM' %in% input$algoparam){sliderInput('cv','Cross-validation number (GBM/CTA/KSVM)',1,20,3, step = 1)}})
 
     ## Modelling ##
     observeEvent(input$model,{
@@ -526,14 +526,14 @@ serverWD <- function(working.directory){
       if(is.null(input$range) || !input$range) {range = NULL} else {range = input$rangeval}
       if(is.null(input$endemism) || input$endemism == 'None') {endemism = NULL} else {endemism = c(input$endemism, input$endemismrange)}
       algoparam = list()
-      if('GLM' %in% input$algoparam || 'GAM' %in% input$algoparam){algoparam$test = input$test} else {algoparam$test = 'AIC'}
-      if('GLM' %in% input$algoparam || 'GAM' %in% input$algoparam || 'SVM' %in% input$algoparam){algoparam$epsilon = as.numeric(paste0('1e-', as.character(input$epsilon)))} else {algoparam$epsilon = 1e-08}
-      if('GLM' %in% input$algoparam || 'GAM' %in% input$algoparam || 'ANN' %in% input$algoparam){algoparam$maxit = as.numeric(input$maxit)} else {algoparam$maxit = 500}
+      if('GLM' %in% input$algoparam || 'BAM' %in% input$algoparam){algoparam$test = input$test} else {algoparam$test = 'AIC'}
+      if('GLM' %in% input$algoparam || 'BAM' %in% input$algoparam || 'KSVM' %in% input$algoparam){algoparam$epsilon = as.numeric(paste0('1e-', as.character(input$epsilon)))} else {algoparam$epsilon = 1e-08}
+      if('GLM' %in% input$algoparam || 'BAM' %in% input$algoparam || 'ANN' %in% input$algoparam){algoparam$maxit = as.numeric(input$maxit)} else {algoparam$maxit = 500}
       if('MARS' %in% input$algoparam){algoparam$degree = as.numeric(input$degree)} else {algoparam$degree = 3}
       if('GBM' %in% input$algoparam){algoparam$thresh.shrink = as.numeric(input$threshshrink)} else {algoparam$threshshrink = 1e-03}
       if('GBM' %in% input$algoparam || 'RF' %in% input$algoparam){algoparam$trees = as.numeric(input$trees)} else {algoparam$trees = 2500}
       if('GBM' %in% input$algoparam || 'RF' %in% input$algoparam || 'CTA' %in% input$algoparam){algoparam$final.leave = as.numeric(input$finalleave)}  else {algoparam$finalleave = 1}
-      if('GBM' %in% input$algoparam || 'CTA' %in% input$algoparam || 'SVM' %in% input$algoparam){algoparam$cv = as.numeric(input$cv)}  else {algoparam$cv = 3}
+      if('GBM' %in% input$algoparam || 'CTA' %in% input$algoparam || 'KSVM' %in% input$algoparam){algoparam$cv = as.numeric(input$cv)}  else {algoparam$cv = 3}
       if(is.null(input$repB)) {rep.B = 1000} else {rep.B = as.numeric(input$repB)}
       if(is.null(input$cval)) {cval = 'holdout'} else {cval = input$cval}
       if(length(c(as.numeric(input$cvalparam1), as.numeric(input$cvalrep))) < 2) {cv.param = c(0.7, 1)} else {cv.param = c(as.numeric(input$cvalparam1), as.numeric(input$cvalrep))}

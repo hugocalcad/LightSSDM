@@ -15,7 +15,7 @@ setMethod("get_PA", "GLM.SDM", function(obj) {
   return(PA)
 })
 
-setMethod("get_PA", "GAM.SDM", function(obj) {
+setMethod("get_PA", "BAM.SDM", function(obj) {
   PA <- list(nb = 1000, strat = "random")
   return(PA)
 })
@@ -40,7 +40,7 @@ setMethod("get_PA", "RF.SDM", function(obj) {
   return(PA)
 })
 
-setMethod("get_PA", "MAXENT.SDM", function(obj) {
+setMethod("get_PA", "MAXNET.SDM", function(obj) {
   PA <- list(nb = 10000, strat = "random")
   return(PA)
 })
@@ -50,7 +50,7 @@ setMethod("get_PA", "ANN.SDM", function(obj) {
   return(PA)
 })
 
-setMethod("get_PA", "SVM.SDM", function(obj) {
+setMethod("get_PA", "KSVM.SDM", function(obj) {
   PA <- list(nb = length(obj@data$Presence), strat = "random")
   return(PA)
 })

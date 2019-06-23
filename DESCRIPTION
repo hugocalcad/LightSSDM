@@ -1,22 +1,16 @@
-Package: SSDM
+Package: LightSSDM
 Type: Package
-Title: Stacked Species Distribution Modelling
-Version: 0.2.3.9008
-Author: Sylvain Schmitt, Robin Pouteau, Dimitri Justeau, Florian de Boissieu, Philippe Birnbaum
-Maintainer: Sylvain Schmitt <sylvain.schmitt@agroparistech.fr>
-URL: https://github.com/sylvainschmitt/SSDM
-BugReports: https://github.com/sylvainschmitt/SSDM/issues
-Description: Allows to map species richness and endemism based on stacked
-    species distribution models (SSDM). Individuals SDMs can be created using a
-    single or multiple algorithms (ensemble SDMs). For each species, an SDM can
-    yield a habitat suitability map, a binary map, a between-algorithm variance
-    map, and can assess variable importance, algorithm accuracy, and between-
-    algorithm correlation. Methods to stack individual SDMs include summing
-    individual probabilities and thresholding then summing. Thresholding can be
-    based on a specific evaluation metric or by drawing repeatedly from a Bernoulli
-    distribution. The SSDM package also provides a user-friendly interface.
+Title: Lighter SSDM Package for large dataset
+Version: 0.1.1.2001
+Author: Víctor Hugo Calderón Cadima
+Maintainer: Victor H. Calderón C. <hugocalcad@gmail.com>
+URL: https://github.com/hugocalcad/LightSSDM
+BugReports: https://github.com/hugocalcad/LightSSDM/issues
+Description: A lighter version of SSDM package written by Sylvain Schmitt et. Al.
+              it is on cran to review it.      
 License: GPL (>=3) | file LICENSE
 LazyData: TRUE
+Encoding: UTF-8
 Imports:
     sp (>= 1.2.0),
     raster (>= 2.4.20),
@@ -25,11 +19,11 @@ Imports:
     mgcv (>= 1.8.7),
     earth (>= 4.4.3),
     rpart (>= 4.1.10),
-    gbm (>= 2.1.1),
+    gbm (>= 2.1.5),
     randomForest (>= 4.6.10),
-    dismo (>= 1.0.12),
+    maxnet (>= 0.1.2),
     nnet (>= 7.3.10),
-    e1071 (>= 1.6.7),
+    kernlab (>= 0.9-27),
     shiny (>= 0.12.2),
     shinydashboard (>= 0.5.1),
     gplots (>= 0.1.0),
@@ -72,7 +66,7 @@ Suggests:
     knitr,
     rmarkdown,
     rgdal
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 VignetteBuilder: 
     knitr,
     rmarkdown,

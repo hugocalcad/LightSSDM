@@ -42,7 +42,7 @@ setMethod('PA.select', "Algorithm.SDM", function(obj, Env, PA = NULL, verbose = 
     Y = runif(nb, min = bbox(Mask)[2,1],max = bbox(Mask)[2,2])
     points = data.frame(X = X, Y = Y)
     check = extract(Mask, points)
-    if(length(is.na(check)) > 0)
+    if(sum(is.na(check)) > 0)
       points = points[-which(is.na(check)),]
     data.PA = rbind(data.PA, points)
   }
