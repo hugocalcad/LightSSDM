@@ -4,18 +4,25 @@
 NULL
 
 #' Load ensemble SDMs and SSDMs.
+#' \strong{(Esp)} Abrir SDMs y SSDMs ensamblados
 #'
 #' Load S4 \linkS4class{Ensemble.SDM} and \linkS4class{Stacked.SDM}
 #' objects saved with their respective save function.
+#' \strong{(Esp)} Abre objetos s4 \linkS4class{Ensemble.SDM} y \linkS4class{Stacked.SDM}
+#' guardados con la respectiva función de guardado.
 #'
-#' @param name character. Name of the folder containing the model to be
-#'   loaded.
+#' @param name character. Name of the folder containing the model to be loaded.
+#'   \strong{(Esp)} Nombre del archivo que contiene el modelo a ser abierto.
 #' @param path character. Path to the directory containing the model to be
 #'   loaded, by default the path to the current directory.
+#'   \strong{(Esp)} Ruta del directorio que contiene el modelo a ser abierto, por
+#'   defecto la ruta es el actual directorio.
 #' @param GUI logical. Do not take this argument into account (parameter for the
 #'   user interface).
+#'   \strong{(Esp)} No tomar este argumento en cuenta (parámetro para la interfaz gráfica de usuario)
 #'
 #' @return The corresponding SDM object.
+#'   \strong{(Esp)} devuelve el SDM correspondiente.
 #'
 #' @seealso \code{\link{save.model}}
 #'

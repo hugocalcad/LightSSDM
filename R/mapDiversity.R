@@ -5,37 +5,59 @@
 NULL
 
 #' Map Diversity
+#' \strong{(Esp)} Mapa de diversidad
 #'
 #' Methods for Stacked.SDM or SSDM to map diversity and communities composition.
+#' \strong{(Esp)} Métodos para Stacked.SDM ó SSDM para mapas de diversidad y composición decomunidades.
 #'
 #'@param obj Stacked.SDM. SSDM to map diversity with.
+#'  \strong{(Esp)} SSDM con el que se va a mapear la diversidad
 #'@param method character. Define the method used to create the local species
 #'  richness map (see details below).
+#'  \strong{(Esp)} define el método usado para crear la distribución local de especies.
+#'  (ver detalles abajo)
 #'@param rep.B integer. If the method used to create the local species richness
 #'  is the random Bernoulli (\strong{Bernoulli}), rep.B parameter defines the number of
 #'  repetitions used to create binary maps for each species.
+#'  \strong{(Esp)} Si el método usado para crear la distribución local de especies es el Bernoulli
+#'  aleatorio (\strong{Bernoulli}), se define como el númeor de repeticiones para crear el mapa
+#'  binario por cada especie.
 #'@param Env raster object. Stacked raster object of environmental variables
 #'  (can be processed first by \code{\link{load_var}}). Needed only for stacking
 #'  method using probability ranking from richness (\strong{PRR}).
+#'  \strong{(Esp)} Pila de rasters de las variables ambientales (que puede ser procesado primero
+#'  por \code{\link{load_var}})). Solo se necesita para el método de apilamiento mediante la
+#'  clasificación de probabilidad de la riqueza (PRR)
 #'@param verbose logical. If set to true, allows the function to print text in
 #'  the console.
+#'  \strong{(Esp)} Si es verdadero (\code{TRUE}) permite imprimir texto en la consola.
 #'@param ... other arguments pass to the method.
+#'  \strong{(Esp)} otros argumentos
 #'
 #'@return a list with a diversity map and eventually ESDMs for stacking method
 #'  using probability ranking from richness (\strong{PPR}).
+#'  \strong{(Esp)} Una lista con un mpara de diversidad y eventuales ESDMs para el método de apilamiento mediante la
+#'  clasificación de probabilidad de la riqueza (PRR)
 #'
 #'@details \strong{Methods:} Choice of the method used to compute the local
 #'  species richness map (see Calabrese et al. (2014) and D'Amen et al (2015) for
-#'  more informations, see reference below): \describe{\item{pSSDM}{sum
-#'  probabilities of habitat suitability maps}\item{Bernoulli}{draw repeatedly
-#'  from a Bernoulli distribution}\item{bSSDM}{sum the binary map obtained with
-#'  the thresholding (depending on the metric of the
-#'  ESDM).}\item{MaximumLikelihood}{adjust species richness of the model by
-#'  linear regression}\item{PRR.MEM}{model richness with a macroecological model
-#'  (MEM) and adjust each ESDM binary map by ranking habitat suitability and
-#'  keeping as much as predicted richness of the MEM}\item{PRR.pSSDM}{model
+#'  more informations, see reference below): \strong{(Esp)} Elige el método usado para procesar
+#'  el mapa de riqueza de especies (ver Calabrese et al. (2014) y D'Amen el al (2015) para
+#'  más información ver referencias abajo): \describe{\item{pSSDM}{sum
+#'  probabilities of habitat suitability maps. \strong{(Esp)} suma de probabilidades de los
+#'  mapas de idoneidad del hábitat}\item{Bernoulli}{draw repeatedly
+#'  from a Bernoulli distribution. \strong{(Esp)} dibujar repetidamente una distribución de Bernoulli}
+#'  \item{bSSDM}{sum the binary map obtained with the thresholding (depending on the metric of the
+#'  ESDM). \strong{(Esp)} suma el mapa binario obtenido con el umbral (según la métrica del ESDM).}
+#'  \item{MaximumLikelihood}{adjust species richness of the model by
+#'  linear regression. \strong{(Esp)} Ajustar la riqueza de especies del modelo mediante regresión lineal.}
+#'  \item{PRR.MEM}{model richness with a macroecological model (MEM) and adjust each ESDM binary map by
+#'  ranking habitat suitability and keeping as much as predicted richness of the MEM. \strong{(Esp)}
+#'  Modela la riqueza con un modelo macroecológico (MEM) y ajuste cada mapa binario de ESDM clasificando
+#'  la aptitud del hábitat y manteniendo la riqueza predicha del MEM.}\item{PRR.pSSDM}{model
 #'  richness with a pSSDM and adjust each ESDM binary map by ranking habitat
-#'  suitability and keeping as much as predicted richness of the pSSDM}}
+#'  suitability and keeping as much as predicted richness of the pSSDM. \strong{(Esp)} Modela la riqueza con un
+#'  pSSDM y ajuste cada mapa binario de ESDM clasificando la idoneidad del hábitat y manteniendo la riqueza predicha del pSSDM}}
 #'
 #'@examples
 #'
@@ -54,6 +76,7 @@ NULL
 #' }
 #'
 #'@seealso \code{\link{stacking}} to build SSDMs.
+#' \strong{(Esp)} ver \code{\link{stacking}} para construir SSDMs.
 #'
 #'@references M. D'Amen, A. Dubuis, R. F. Fernandes, J. Pottier, L. Pelissier, &
 #'  A Guisan (2015) "Using species richness and functional traits prediction to

@@ -1,6 +1,6 @@
 .PkgEnv <- new.env()
 .onAttach <- function(libname, pkgname){
-  packageStartupMessage('Welcome to the SSDM package, you can launch the graphical user interface by typing gui() in the console.')
+  packageStartupMessage('Welcome to the LightSSDM package (A lighter version of SSDM package), you can launch the graphical user interface by typing gui() in the console.')
 }
 .onLoad <- function(libname, pkgname){
   dir.create(paste0(tempdir(),'/NumberOne'))

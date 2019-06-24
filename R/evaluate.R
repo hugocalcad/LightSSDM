@@ -9,26 +9,40 @@
 NULL
 
 #' Evaluate
+#' \strong{(Esp)} Evaluar
 #'
 #' Evaluation of SDM or ESDM habitat suitability predictions or evalaution of
 #' SSDM floristic composition with Pottier et al, 2013 method (see reference
 #' below)
+#' \strong{(Esp)} Evaluación de las predicciones de idoneidad del hábitat de SDM o
+#' ESDM o la evolución de la composición florística de SSDM con Pottier et al,
+#' método de 2013 (consulte la referencia más abajo)
 #'
-#' @param obj Stacked.SDM. SSDM to evaluate
+#' @param obj Stacked.SDM. SSDM to evaluate.
+#' \strong{(Esp)} SSDM a evaluar.
 #' @param cv character. Method of cross-validation used to evaluate the SDM (see
 #'  details below).
+#'  \strong{(Esp)} Método de validación cruzada usada para evaluar el SDM
+#'  (ver detalles más abajo).
 #' @param cv.param numeric. Parameters associated to the method of
 #'  cross-validation used to evaluate the SDM (see details below).
 #' @param thresh numeric. A single integer value representing the number of equal
-#'  interval threshold values between 0 and 1 (see
-#'  \code{\link[SDMTools]{optim.thresh}}).
+#'  interval threshold values between 0 and 1 (see \code{\link[SDMTools]{optim.thresh}}).
+#'  \strong{(Esp)} Un solo valor entero que representa el número de valores de umbral de
+#'  intervalo iguales entre 0 y 1 (ver \code{\link[SDMTools]{optim.thresh}})
 #' @param metric character. Metric(s) used to select the best SDMs that will be
 #'  included in the ensemble SDM (see details below).
+#'  \strong{(Esp)} Métrica(s) usada(s) para seleccionar los mejores SDMs que seran
+#'  incluidos en el SDM ensamblado (ver detalles más abajo)
 #' @param Env raster object. Stacked raster object of environmental variables
 #'  (can be processed first by \code{\link{load_var}}).
+#'  \strong{(Esp)} Objeto apilado de ráster de variables ambientales (puede ser
+#'  procesado primero por \code{\link{load_var}}).
 #' @param ... unused argument
+#' \strong{(Esp)} argumentos sin uso.
 #'
 #' @return SDM/ESDM/SSDM evaluation in a data.frame
+#'\strong{(Esp)} devuelve un SDM/ESDM/SSDM evaluado en un data.frame
 #'
 #' @examples
 #'

@@ -3,6 +3,7 @@
 NULL
 
 #'Methods to assemble multiple algorithms in an ensemble SDM
+#'\strong{(Esp)} Método para ensamblar multiples algoritmos en un SDM ensamblado.
 #'
 #'This is a method to assemble several algorithms in an ensemble SDM. The
 #'function takes as inputs several S4 \linkS4class{Algorithm.SDM} class objects
@@ -11,25 +12,48 @@ NULL
 #'map, the binary map, and the uncertainty map (based on the between-algorithm
 #'variance) and the associated evaluation tables (model evaluation, algorithm
 #'evaluation, algorithm correlation matrix and variable importance).
+#'\strong{(Esp)} Este es un método para ensamblar muchos algoritmos en un SDm ensamblado. La
+#'función toma como  datos de entrada muchos objetos de clase S4 \linkS4class{Algorithm.SDM}
+#'obtenidos con la funcion \code{\link{modelling}}. La función retorna un objeto de clase S4
+#'\linkS4class{Ensemble.SDM} conteniendo el mapa de idoneidad de hábitat,
+#' el mapa binario, y el mapa de incertidumbre (basado en la variación entre
+#'algoritmos) y las tablas de evaluación asociados (evaluación del modelos, evaluación
+#'de algoritmo, matriz de correlación de algoritmos y variable de importancia).
 #'
 #'@param x,... SDMs. SDMs to be assembled.
+#'\strong{(Esp)} SDMs a ser ensamblados.
 #'@param name character. Optional name given to the final Ensemble.SDM produced
 #'  (by default 'Ensemble.SDM').
+#'\strong{(Esp)} Nombre opcional dado al Ensemble.SDM final producido
+#'(por defecto 'Ensemble.SDM')
 #'@param ensemble.metric character. Metric(s) used to select the best SDMs that
 #'  will be included in the ensemble SDM (see details below).
+#'\strong{(Esp)} Metrica(s) usado para seleccionar el mejor SDM que será incluido
+#'en el SDM ensamblado (ver detalles abajo).
 #'@param ensemble.thresh numeric. Threshold(s) associated with the metric(s)
 #'  used to compute the selection.
+#'\strong{(Esp)} Umbral(es) asociado con la metrica(s) usado oara calcular la
+#'selección.
 #'@param weight logical. If TRUE, SDMs are weighted using the ensemble metric
 #'  or, alternatively, the mean of the selection   metrics.
+#'  \strong{(Esp)} Si es Verdadero (TRUE), los SDMs son ponderados usando la
+#'  métrica del ensamblado o, alternativamente, la media de las métricas de selección.
 #'@param thresh numeric. A integer value specifying the number of equal
-#'  interval threshold values between 0 and 1 (see
-#'  \code{\link[SDMTools]{optim.thresh}}).
+#'  interval threshold values between 0 and 1 (see \code{\link[SDMTools]{optim.thresh}}).
+#'\strong{(Esp)} Un valor númerico especificando  el número de intervalos iguales de
+#'umbrales entre 0 y 1 (ver \code{\link[SDMTools]{optim.thresh}}).
 #'@param uncertainty logical. If TRUE, generates an uncertainty map and
 #'  an algorithm correlation matrix.
+#'\strong{(Esp)} Si es verdadero (TRUE), genera un mapa de incentidumbre y una matri
+#'de correlación de algoritmos.
 #'@param verbose logical. If set to true, allows the function to print text in
 #'  the console.
+#'\strong{(Esp)} Si es verdadero (TRUE), permite la función para imprimir texto en
+#'la consola.
 #'@param GUI,format,na.rm  logical. Do not take those arguments into account
 #'  (parameters for the user interface and sum function).
+#'\strong{(Esp)} No tomar en cuenta estos argumentos (parametros para interfaz de usuario
+#'y la función de suma).
 #'
 #'@details ensemble.metric (metric(s) used to select the best SDMs that will be
 #'  included in the ensemble SDM) can be chosen from among: \describe{
@@ -39,8 +63,18 @@ NULL
 #'  matrix} \item{prop.correct}{Proportion of correctly predicted occurrences
 #'  from the confusion matrix} }
 #'
+#'\strong{(Esp)} ensemble.metric (Metrica(s) usado para seleccionar el mejor SDM
+#'que será incluido en el SDM ensamblado) pude ser elegido entre \describe{
+#'  \item{AUC}{Áre bajo la curva operación caraterística curva (ROC) }
+#'  \item{Kappa}{Kappa de la matriz de confusión} \item{sensitivity}{Sensibilidad
+#'  de la matriz de confusión} \item{specificity}{Especificidad de la matriz de
+#'  confusión} \item{prop.correct}{Proporción de predicción de ocurrencias
+#'  de la matriz de confusión} }
+#'
 #'@return an S4 \linkS4class{Ensemble.SDM} class object viewable with the
 #'  \code{\link{plot.model}} function.
+#'  \strong{(Esp)} Un objeto de clase \linkS4class{Ensemble.SDM} visible con la
+#'  función \code{\link{plot.model}}
 #'
 #' @examples
 #' \dontrun{
@@ -49,17 +83,19 @@ NULL
 #' data(Occurrences)
 #' Occurrences <- subset(Occurrences, Occurrences$SPECIES == 'elliptica')
 #'
-#' # ensemble SDM building
+#' # ensemble SDM building - Contrucción de un SDM ensamblado
 #' CTA <- modelling('CTA', Occurrences, Env, Xcol = 'LONGITUDE', Ycol = 'LATITUDE')
 #' SVM <- modelling('SVM', Occurrences, Env, Xcol = 'LONGITUDE', Ycol = 'LATITUDE')
 #' ESDM <- ensemble(CTA, SVM, ensemble.thresh = c(0.6))
 #'
-#' # Results plotting
+#' # Results plotting - Gráficos de los resultados
 #' plot(ESDM)
 #' }
 #'
 #'@seealso \code{\link{ensemble_modelling}} to build an ensemble SDM from
 #'  multiple algorithms.
+#'  \strong{(Esp)} \code{\link{ensemble_modelling}} para consruir un SDM ensamblado de
+#'  multiples algoritmos.
 #'
 #'@name ensemble
 #'

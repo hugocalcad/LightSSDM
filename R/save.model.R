@@ -3,22 +3,35 @@
 NULL
 
 #' Save ensemble SDMs and SSDMs
+#' \strong{(Esp)} Guarda SDMs ensamblados y SSDMs
 #'
 #' Allows to save S4 \linkS4class{Ensemble.SDM} and \linkS4class{Stacked.SDM}
 #' class objects.
+#' \strong{(Esp)} Permite guardar objetos de clase S4 \linkS4class{Ensemble.SDM} y
+#' \linkS4class{Stacked.SDM}.
 #'
 #' @param enm Ensemble.SDM. Ensemble SDM to be saved.
+#' \strong{(Esp)} SDM ensambladoa ser giardado.
 #' @param stack Stacked.SDM. SSDM to be saved.
+#' \strong{(Esp)} SSDM a ser guardado.
 #' @param name character. Folder name of the model to save.
+#' \strong{(Esp)} Nombre de la carpeta donde se guardara el modelo.
 #' @param path character. Path to the directory chosen to save the SDM,
 #'   by default the path to the current directory.
+#' \strong{(Esp)} Ruta del directorio elegido para guardar el SDM, por defecto
+#'   la ruta es el actual directorio.
 #' @param verbose logical. If set to true, allows the function to print text in the
 #'   console.
+#' \strong{(Esp)} Si es verdadero (\code{TRUE}) permite la función de escribir texto
+#'   en la consola.
 #' @param GUI logical. Don't take that argument into account (parameter for the
 #'   user interface).
+#' \strong{(Esp)} No tomar en cuenta este argumento (parámetro para la interfaz de usuario)
 #'
 #' @return Nothing in R environment. Creates folders, tables and rasters
 #'   associated to the SDM. Tables are in .csv and rasters in .grd/.gri.
+#' \strong{(Esp)} Nada en el ambiente (environment) de R. Crea una carpeta, tablas y rásters
+#'   asociados al SDM. TAblas estan en formato .csv y raster en .grd/.gri
 #'
 #' @seealso \code{\link{load.model}}
 #'

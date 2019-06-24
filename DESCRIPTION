@@ -1,14 +1,16 @@
 Package: LightSSDM
 Type: Package
-Title: Optimized SSDM Package for large dataset
-Version: 0.1.1.1001
-Author: Sylvain Schmitt, Robin Pouteau, Dimitri Justeau, Florian de Boissieu, Philippe Birnbaum
-Maintainer: Sylvain Schmitt <sylvain.schmitt@agroparistech.fr>
-URL: https://github.com/sylvainschmitt/SSDM
-BugReports: https://github.com/sylvainschmitt/SSDM/issues
-Description: Optimizacion de codigo paquete original desarrollado por et. al. Schmitt.
+Title: Lighter SSDM Package for large dataset
+Version: 0.1.1.2001
+Author: Víctor Hugo Calderón Cadima
+Maintainer: Victor H. Calderón C. <hugocalcad@gmail.com>
+URL: https://github.com/hugocalcad/LightSSDM
+BugReports: https://github.com/hugocalcad/LightSSDM/issues
+Description: A lighter version of SSDM package written by Sylvain Schmitt et. Al.
+              it is on cran to review it.      
 License: GPL (>=3) | file LICENSE
 LazyData: TRUE
+Encoding: UTF-8
 Imports:
     sp (>= 1.2.0),
     raster (>= 2.4.20),
