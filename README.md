@@ -1,79 +1,67 @@
-SSDM: Stacked species distribution modelling
-================
+---
+title: "LightSSDM: A lighter version of SSDM(Stacked species distribution modelling) packages"
+output: github_document
+---
 
-[![Travis-CI Build Status](https://travis-ci.org/sylvainschmitt/SSDM.svg?branch=master)](https://travis-ci.org/sylvainschmitt/SSDM) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/sylvainschmitt/SSDM?branch=master&svg=true)](https://ci.appveyor.com/project/sylvainschmitt/SSDM) [![CRAN](https://www.r-pkg.org/badges/version/SSDM)](https://CRAN.R-project.org/package=SSDM) [![Downloads](http://cranlogs.r-pkg.org/badges/SSDM?color=brightgreen)](http://www.r-pkg.org/pkg/SSDM) [![Coverage Status](https://img.shields.io/codecov/c/github/sylvainschmitt/SSDM/master.svg)](https://codecov.io/github/sylvainschmitt/SSDM?branch=master) [![Research software impact](http://depsy.org/api/package/cran/SSDM/badge.svg)](http://depsy.org/package/r/SSDM)
+LightSSDM is a lighter implementation of SSDM package in R, written by Sylvain Schmitt et.al. (https://cran.r-project.org/package=SSDM), the purpose is to execute the creation of species distribution models (SDM) described in the article of the Schmitt SSDM package, besides bugs were corrected.
 
-SSDM is a package to map species richness and endemism based on stacked species distribution models (SSDM). Individual SDMs can be created using a single or multiple algorithms (ensemble SDMs). For each species, an SDM can yield a habitat suitability map, a binary map, a between-algorithm variance map, and can assess variable importance, algorithm accuracy, and between-algorithm correlation. Methods to stack individual SDMs include summing individual probabilities and thresholding then summing. Thresholding can be based on a specific evaluation metric or by drawing repeatedly from a Bernouilli distribution. The SSDM package also provides a user-friendly interface `gui`.
+Some algorithms were changed by others that process extensive data more efficiently in time and computer resources, in others some input data was changed so that processing is more efficient; The algorithms that handle the LightSSDM are: Generalized linear model (GLM), Generalized additive model for large datasets (BAM), Multivariate adaptive regression splines (MARS), Generalized boosted regressions model (GBM), Classification tree analysis (CTA), Random forest (RF), Maximum entropy (MAXENT), Artificial neural network (ANN), and Support vector machines (KSVM).
 
 For a full list of changes see [`NEWS`](./NEWS.md).
 
-Installation
-============
+# Installation
 
 Please be aware that SSDM package use a lot of dependencies (see [`DESCRIPTION`](./DESCRIPTION))
 
 ### Install from Github
 
-You can install the latest version of **SSDM** from Github using the [`devtools`](https://github.com/hadley/devtools) package:
+You can install the latest version of **LightSSDM** from Github using the [`devtools`](https://github.com/hadley/devtools) package:
 
-``` r
+```r
 if (!requireNamespace("devtools", quietly = TRUE))
   install.packages("devtools")
 
-devtools::install_github("sylvainschmitt/SSDM")
+devtools::install_github('hugocalcad/LightSSDM')
 ```
 
-### Install from CRAN
+# Usage
 
-The stable version of **SSDM**, is available on CRAN:
-
-``` r
-install.packages("SSDM")
-```
-
-*We advise users to install from github. Due to CRAN policies and the development of SSDM, many new features and bugfixes may be available on CRAN later.*
-
-Usage
-=====
-
-After installing, **SSDM** package, you can launch the graphical user interface by typing gui() in the console.
+After installing, **LightSSDM** package, you can launch the graphical user interface by typing gui() in the console, it has no changes at the original package.
 
 <center>
-[**Click to enlarge**](https://raw.githubusercontent.com/sylvainschmitt/SSDM/master/examples/SSDM.gif)
-<center>
+[**Click to enlarge**](https://raw.githubusercontent.com/sylvainschmitt/SSDM/master/examples/SSDM.gif)<center>
 ![Screenshot](https://raw.githubusercontent.com/sylvainschmitt/SSDM/master/examples/SSDM.gif)
 
-Functionnalities
-================
+# Functionnalities
 
-SSDM provides five categories of functions (that you can find in details below): Data preparation, Modelling main functions, Model main methods, Model classes, and Miscellaneous.
+Has the same structure as SSDM package only it was changed to support other functions, lighter that in the original packages her is the same resume that you haver inthe SSDM package for Sylvain Schmitt.
 
 ### Data preparation
 
--   `load_occ`: Load occurrence data
--   `load_var`: Load environmental variables
+* `load_occ`: Load occurrence data
+* `load_var`: Load environmental variables
 
 ### Modelling main functions
 
--   `modelling`: Build an SDM using a single algorithm
--   `ensemble_modelling`: Build an SDM that assembles multiple algorithms
--   `stack_modelling`: Build an SSDMs that assembles multiple algorithms and species
+* `modelling`: Build an SDM using a single algorithm
+* `ensemble_modelling`: Build an SDM that assembles multiple algorithms
+* `stack_modelling`: Build an SSDMs that assembles multiple algorithms and species
 
 ### Model main methods
 
--   `ensemble,Algorithm.SDM-method`: Build an ensemble SDM
--   `stacking,Ensemble.SDM-method`: Build an SSDM
--   `update,Stacked.SDM-method`: Update a previous SSDM with new occurrence data
+* `ensemble,Algorithm.SDM-method`: Build an ensemble SDM
+* `stacking,Ensemble.SDM-method`: Build an SSDM
+* `update,Stacked.SDM-method`: Update a previous SSDM with new occurrence data
 
 ### Model classes
 
--   `Algorithm.SDM`: S4 class to represent SDMs
--   `Ensemble.SDM`: S4 class to represent ensemble SDMs
--   `Stacked.SDM`: S4 class to represent SSDMs
+* `Algorithm.SDM`: S4 class to represent SDMs
+* `Ensemble.SDM`: S4 class to represent ensemble SDMs
+* `Stacked.SDM`: S4 class to represent SSDMs
 
 ### Miscellanous
 
--   `gui`: user-friendly interface for SSDM package
--   `plot.model`: Plot SDMs
--   `save.model`: Save SDMs
--   `load.model`: Load SDMs
+* `gui`: user-friendly interface for SSDM package
+* `plot.model`: Plot SDMs
+* `save.model`: Save SDMs
+* `load.model`: Load SDMs
