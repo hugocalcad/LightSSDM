@@ -1,7 +1,6 @@
----
-title: "LightSSDM: A lighter version of SSDM(Stacked species distribution modelling) packages"
-output: github_document
----
+LightSSDM: A lighter version of SSDM(Stacked species distribution modelling) packages
+
+==================
 
 LightSSDM is a lighter implementation of SSDM package in R, written by Sylvain Schmitt et.al. (https://cran.r-project.org/package=SSDM), the purpose is to execute the creation of species distribution models (SDM) described in the article of the Schmitt SSDM package, besides bugs were corrected.
 
