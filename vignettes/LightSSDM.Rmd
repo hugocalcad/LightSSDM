@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-LightSSDM is a lighter implementation of SSDM package in R, written by Sylvain Schmitt et.al. (https://cran.r-project.org/package=SSDM), the purpose is to execute the creation of species distribution models (SDM) described in the article of the Schmitt SSDM package, besides bugs were corrected
+LightSSDM is a lighter implementation of SSDM package in R, written by Sylvain Schmitt et.al. (https://cran.r-project.org/package=SSDM), the purpose is to execute the creation of species distribution models (SDM) described in the article of the Schmitt SSDM package, besides bugs were corrected.
 
 Some algorithms were changed by others that process extensive data more efficiently in time and computer resources, in others some input data was changed so that processing is more efficient; The algorithms that handle the LightSSDM are: Generalized linear model (GLM), Generalized additive model for large datasets (BAM), Multivariate adaptive regression splines (MARS), Generalized boosted regressions model (GBM), Classification tree analysis (CTA), Random forest (RF), Maximum entropy (MAXENT), Artificial neural network (ANN), and Support vector machines (KSVM).
 
