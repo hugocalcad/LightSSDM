@@ -9,22 +9,17 @@ setGeneric("project", function(obj, Env, ...) {
 
 setMethod("project", "Algorithm.SDM", function(obj, Env, ...) {
   model = get_model(obj, ...)
-
-  proj = suppressWarnings(raster::predict(Env, model, fun = function(model, x) {
-      x = as.data.frame(x)
-      for (j in seq_len(length(Env@layers))) {
-        if (Env[[j]]@data@isfactor) {
-          x[, j] = as.factor(x[, j])
-          x[, j] = droplevels(x[, j])
-          levels(x[, j]) = Env[[j]]@data@attributes[[1]]$ID
-        }
-      }
-      if(obj@name == 'MAXNET.SDM')
-        return(predict(model, x, type = "logistic"))
-      else
-        return(predict(model, x))
-  }))
-  # Rescaling projectio
+  ##copying terms on SSDM 0.2.4
+  factors <- sapply(seq_len(length(Env@layers)), function(i)
+    if(Env[[i]]@data@isfactor) Env[[i]]@data@attributes[[1]]$ID)
+  factors[sapply(factors, is.null)] <- NULL
+  names(factors) <- unlist(sapply(seq_len(length(Env@layers)), function(i)
+    if(Env[[i]]@data@isfactor) names(Env[[i]])))
+  if(length(factors)==0) factors <- NULL
+  if (obj@name == "MAXNET.SDM")
+    proj = suppressWarnings(raster::predict(Env, model, factors = factors, type = "logistic"))
+  else
+   proj = suppressWarnings(raster::predict(Env, model,factors = factors) )
   proj= reclassify(proj, c(-Inf, 0, 0))
   if(all(obj@data$Presence %in% c(0,1))) # MEMs should not be rescaled
     proj = proj / proj@data@max

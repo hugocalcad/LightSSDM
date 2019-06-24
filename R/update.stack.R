@@ -11,7 +11,7 @@ NULL
 #'\strong{(Esp)} Actualizar un SSDM anterior con nuevos datos de ocurrencia.
 #'La función toma como entradas actualizadas o nuevos datos de ocurrencia de
 #'una especie, variables ambientales anteriores y un objeto de clase S4
-#'\LinkS4class{Stacked.SDM} que contiene un SSDM creado anteriormente.
+#'\linkS4class{Stacked.SDM} que contiene un SSDM creado anteriormente.
 #'
 #'@param object Stacked.SDM. The previously built SSDM.
 #'\strong{(Esp)} El SSDM construido previamente.

@@ -3,8 +3,15 @@ title: "LightSSDM - Tutorial"
 author: "Victor Hugo Calderón Cadima"
 date: "June 22, 2019"
 output:
-  pdf_document: default
-  word_document: default
+ html_document:
+    theme: journal
+    toc: yes
+    toc_depth: 5
+    toc_float: yes
+vignette: >
+  %\VignetteIndexEntry{"LightSSDM"}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
@@ -38,7 +45,9 @@ To load the data you have to do is first load the package 'LightSSDM', then ther
 
 ```{r Entrada de datos, eval = FALSE}
 library(LightSSDM)
-Env <- load_var(system.file('extdata',  package = 'LightSSDM'), categorical = 'SUBSTRATE', verbose = FALSE, folder_tmp = "temporal_ENV")
+Env <- load_var(system.file('extdata',  package = 'LightSSDM'), 
+                categorical = 'SUBSTRATE', verbose = FALSE, 
+                folder_tmp = "temporal_ENV")
 Env
 Occ <- load_occ(path = system.file('extdata',  package = 'LightSSDM'), Env,
          Xcol = 'LONGITUDE', Ycol = 'LATITUDE',
@@ -63,8 +72,12 @@ plot(SDM@projection, main = 'SDM\nfor Cryptocarya elliptica\nwith GLM algorithm'
 To generate an ESDM the `ensemble_modelling` function is used, just as the` modeling` function requires the environmental variables and the occurrences, but with the difference that you can choose several algorithms, which in the end will be assembled. In the example we continue using the same species * elliptica *.
 
 ```{r ESDM, eval = FALSE}
-ESDM <- ensemble_modelling(c('CTA', 'MARS'), subset(Occurrences, Occurrences$SPECIES == 'elliptica'),  Env, rep = 1, Xcol = 'LONGITUDE', Ycol = 'LATITUDE',                ensemble.thresh = c(0.6), verbose = TRUE)
-plot(ESDM@projection, main = 'ESDM\nfor Cryptocarya elliptica\nwith CTA and MARS algorithms')
+ESDM <- ensemble_modelling(c('CTA', 'MARS'), 
+                           subset(Occurrences, Occurrences$SPECIES == 'elliptica'),
+                           Env, rep = 1, Xcol = 'LONGITUDE', Ycol = 'LATITUDE',
+                           ensemble.thresh = c(0.6), verbose = TRUE)
+plot(ESDM@projection, main = 'ESDM\nfor Cryptocarya elliptica\nwith CTA 
+     and MARS algorithms')
 ```
 
 ## Stacking species distribution model (SSDM)
@@ -97,7 +110,8 @@ knitr::kable(SSDM@variable.importance)
 2. The corrected weighted endemism index.
 
 ```{r SSDM endemism, eval = FALSE}
-plot(SSDM@endemism.map, main = 'Endemism map\nfor Cryptocarya genus\nwith CTA and SVM algorithms')
+plot(SSDM@endemism.map, main = 'Endemism map\nfor Cryptocarya 
+     genus\nwith CTA and SVM algorithms')
 ```
 
 

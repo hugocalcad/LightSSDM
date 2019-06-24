@@ -62,7 +62,6 @@ NULL
 #'  from the confusion matrix} \item{specificity}{Specificity from the confusion
 #'  matrix} \item{prop.correct}{Proportion of correctly predicted occurrences
 #'  from the confusion matrix} }
-#'
 #'\strong{(Esp)} ensemble.metric (Metrica(s) usado para seleccionar el mejor SDM
 #'que será incluido en el SDM ensamblado) pude ser elegido entre \describe{
 #'  \item{AUC}{Áre bajo la curva operación caraterística curva (ROC) }
